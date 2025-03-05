@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMIC WORD PROCESSOR</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            font-size: 72pt;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        input[type="text"] {
+            font-size: inherit; /* Inherit the 72pt font size */
+            font-family: inherit; /* Inherit the Comic Sans font */
+            background-color: transparent; /* Makes the input background transparent */
+            color: inherit; /* Makes the input text lime */
+            border: 2px solid lime; /*optional lime border*/
+            padding: 10px; /*optional padding*/
+            text-align: center; /*centers the input text*/
+        }
+
+        input[type="text"]:focus {
+            outline: none; /* Removes the default focus outline */
+            border: 3px solid white; /*Optional: change border on focus*/
+        }
+
+    </style>
+</head>
+<body>
+    <input type="text" id="words" placeholder="FEED WORDS" autofocus>
+    <script>
+        document.getElementById('words').focus(); //redundant, but good practice
+    </script>
+</body>
+</html>
