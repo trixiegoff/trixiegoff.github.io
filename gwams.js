@@ -1,5 +1,3 @@
-alert("did i even get included?")
-
 let xhr = new XMLHttpRequest();
 xhr.open('GET', 'words.txt');
 xhr.send();
@@ -18,9 +16,9 @@ xhr.onload = function() {
 
 xhr.onprogress = function(event) {
   if (event.lengthComputable) {
-    alert(`Received ${event.loaded} of ${event.total} bytes`);
+    //alert(`Received ${event.loaded} of ${event.total} bytes`);
   } else {
-    alert(`Received ${event.loaded} bytes`); // no Content-Length
+    //alert(`Received ${event.loaded} bytes`); // no Content-Length
   }
 
 };
