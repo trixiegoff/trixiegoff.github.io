@@ -1,3 +1,5 @@
+alert("did i even get included?")
+
 let xhr = new XMLHttpRequest();
 xhr.open('GET', 'words.txt');
 xhr.send();
