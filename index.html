@@ -38,8 +38,10 @@
 <body>
     <input type="text" id="words" placeholder="FART FART FART" autofocus>
     <script>
-    		alert("WELL ALERT WORKS APPARENTLY")
-        document.getElementById('words').focus(); //redundant, but good practice
+		const r = await fetch("words.txt")
+		dic = r.body.split("\n")
+		alert("Loaded " + dic.length + " words")
+//        document.getElementById('words').focus(); //redundant, but good practice
     </script>
 </body>
 </html>
