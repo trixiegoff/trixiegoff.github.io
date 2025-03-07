@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COSMIC WORD PROCESSOR</title>
-    <script src="gwams.js"></script>
     <style>
         body {
             background-color: black;
             color: lime;
-            font-family: monospace, monospace, monospace;
-            font-size: 72pt;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,26 +16,32 @@
         }
 
         input[type="text"] {
-            font-size: inherit; /* Inherit the 72pt font size */
-            font-family: inherit; /* Inherit the Comic Sans font */
-            background-color: transparent; /* Makes the input background transparent */
-            color: inherit; /* Makes the input text lime */
-            border: 2px solid lime; /*optional lime border*/
-            padding: 10px; /*optional padding*/
-            text-align: center; /*centers the input text*/
-        }
+            position: fixed;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
 
-        input[type="text"]:focus {
-            outline: none; /* Removes the default focus outline */
-            border: 3px solid white; /*Optional: change border on focus*/
+            font-size: 72;
+            background-color: transparent;
+            color: inherit;
+            border: 0px solid lime;
+            padding: 0px;
+            text-align: center;
         }
-
     </style>
+    <script>
+        const gwams = new Worker("gwams.js");
+        myWorker.addEventListener("message", function handleMessageFromWorker(msg) {
+          console.log("message from worker received in main:", msg);
+          );
+        });
+    </script>
 </head>
 <body>
-    <input type="text" id="words" placeholder="FART FART FART" autofocus>
-    <script>
-//        document.getElementById('words').focus(); //redundant, but good practice
-    </script>
+    <div id="log"></div>
+    <input type="text" id="words" placeholder="PUT YOUR WORDS INSIDE ME 🥺" autofocus>
 </body>
 </html>
