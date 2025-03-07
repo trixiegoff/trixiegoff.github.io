@@ -34,7 +34,7 @@
     </style>
     <script>
         const gwams = new Worker("gwams.js")
-        myWorker.addEventListener("message", function handleMessageFromWorker(msg) {
+        gwams.addEventListener("message", function handleMessageFromWorker(msg) {
             console.log("MESSAGE FROM GWAMS! 👵", msg)
             // switch(msg.)
             // const parentDiv = document.getElementById("parent-div-id")
