@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COSMIC WORD PROCESSOR</title>
+    <title>GWAMS!</title>
     <style>
         body {
             background-color: black;
@@ -33,11 +33,17 @@
         }
     </style>
     <script>
-        const gwams = new Worker("gwams.js");
+        const gwams = new Worker("gwams.js")
         myWorker.addEventListener("message", function handleMessageFromWorker(msg) {
-          console.log("message from worker received in main:", msg);
-          );
-        });
+            console.log("MESSAGE FROM GWAMS! 👵", msg)
+            // switch(msg.)
+            // const parentDiv = document.getElementById("parent-div-id")
+            // const newDiv = document.createElement("div")
+            // const textNode = document.createTextNode("This is the text for the new div.")
+            // newDiv.appendChild(textNode)
+            // parentDiv.appendChild(newDiv)
+            )
+        })
     </script>
 </head>
 <body>
