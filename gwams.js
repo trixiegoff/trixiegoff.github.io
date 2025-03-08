@@ -32,10 +32,15 @@ xhr.onprogress = function(event) {
 }
 
 xhr.onerror = function() {
-  log("🫠 Failed to load dictionary!");
-};
+  log("🫠 Failed to load dictionary!")
+}
 
 xhr.send()
+
+self.onmessage = function(msg) {
+  log("I GOT YOUR MESSAGE! 😌")
+  }
+ 
 
 let hashes = []
 let words = []
@@ -111,3 +116,5 @@ function findgwams(hash1 = 0n, gwams = []) {
   }
   return gwams
 }
+
+
