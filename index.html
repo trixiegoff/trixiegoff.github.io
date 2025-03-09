@@ -35,13 +35,16 @@
     <script>
         const gwams = new Worker("gwams.js")
         gwams.addEventListener("message", function handleMessageFromWorker(msg) {
+            switch(msg.data[0]) {
+                case "log:
+                    const parentDiv = document.getElementById("parent-div-id")
+                    const newDiv = document.createElement("div")
+                    const textNode = document.createTextNode(msg.data[1])
+                    newDiv.appendChild(textNode)
+                    parentDiv.appendChild(newDiv)
+                		break
+            }
             console.log("MESSAGE FROM GWAMS! 👵", msg)
-            // switch(msg.)
-            // const parentDiv = document.getElementById("parent-div-id")
-            // const newDiv = document.createElement("div")
-            // const textNode = document.createTextNode("This is the text for the new div.")
-            // newDiv.appendChild(textNode)
-            // parentDiv.appendChild(newDiv)
         })
         gwams.postMessage("fnord!")
     </script>
