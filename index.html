@@ -14,6 +14,10 @@
             height: 100vh;
             margin: 0;
         }
+        
+        #log {
+            font-family: monospace, monospace, monspace;
+            }
 
         input[type="text"] {
             position: fixed;
@@ -37,7 +41,7 @@
         gwams.addEventListener("message", function handleMessageFromWorker(msg) {
             switch(msg.data[0]) {
                 case "log:
-                    const parentDiv = document.getElementById("parent-div-id")
+                    const parentDiv = document.getElementById("log")
                     const newDiv = document.createElement("div")
                     const textNode = document.createTextNode(msg.data[1])
                     newDiv.appendChild(textNode)
