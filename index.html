@@ -41,6 +41,7 @@
         gwams.addEventListener("message", function handleMessageFromWorker(msg) {
             switch(msg.data[0]) {
                 case "log:
+                		alert(msg.data[1])
                     const parentDiv = document.getElementById("log")
                     const newDiv = document.createElement("div")
                     const textNode = document.createTextNode(msg.data[1])
