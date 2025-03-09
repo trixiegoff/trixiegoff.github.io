@@ -1,6 +1,7 @@
+const hashes = new Map()
+let rawdic = []
+let jobs = []
 
-
-rawdic = []
 
 msg = function(type, payload) {
 	self.postMessage([type, payload])
@@ -9,6 +10,10 @@ msg = function(type, payload) {
 log = function(text) {
 	msg("log", text)
 }
+
+self.onmessage = function(msg) {
+  log("I GOT YOUR MESSAGE! 😌")
+  }
 
 let xhr = new XMLHttpRequest();
 xhr.open('GET', 'words.txt');
@@ -19,7 +24,9 @@ xhr.onload = function() {
   } else {
     log(`Done, got ${xhr.response.length} bytes`)
 	rawdic = xhr.responseText.split("\n")
-	log(`Loaded ${rawdic.length} words into dic[]`)
+	log(`Downloaded ${rawdic.length} words, processing hashtograms...`)
+  mapdic(rawdic)
+  log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
   }
 }
 
@@ -36,17 +43,9 @@ xhr.onerror = function() {
 }
 
 xhr.send()
-
-self.onmessage = function(msg) {
-  log("I GOT YOUR MESSAGE! 😌")
-  }
  
-
-let hashes = []
-let words = []
-
-
-function weedrun(in_str, out = 0n) {
+//my brain refuses to rename this as it returns# a pile of hash
+function weedrun(in_str, out = 0n) { 
   for (c of in_str) {
     let n = BigInt((c.charCodeAt() & ~32) - 65) //lower case & normalize
     if (!((n > 26) || (n < 0))) { //only process english alphabet
@@ -58,6 +57,18 @@ function weedrun(in_str, out = 0n) {
   return out //return the delicious hashtogram
 }
 
+
+function mapdic(rawdic) {
+ 	words = rawdic.split("\n")
+  for (word of words) {
+		let hash = weedrun(word)
+    if hashes.has(hash) {
+    	hashes.set(hash, [...hashes.get(hash), word])
+    } else {
+      hashes.set(hash, [word])
+    }
+	}
+}
 
 function eatdic(rawdic) {
  	words = rawdic[0].split("\n")
@@ -117,4 +128,4 @@ function findgwams(hash1 = 0n, gwams = []) {
   return gwams
 }
 
-
+function dojob()
