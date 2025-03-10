@@ -128,4 +128,3 @@ function findgwams(hash1 = 0n, gwams = []) {
   return gwams
 }
 
-function dojob()
