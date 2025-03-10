@@ -123,8 +123,7 @@ function add_slow(hash1, hash2) { //original bit by bit algorithm
 }
 
 function findgwams(hash1 = 0n, gwams = []) {
-  hashes.forEach((hash2, i) => if ((hash1 & hash2) == hash2) gwams.push(hi))
-  }
-  return gwams
+  //hashes.forEach((hash2, i) => if ((hash1 & hash2) == hash2) gwams.push(hi))
+  //return gwams
 }
 
