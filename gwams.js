@@ -1,5 +1,4 @@
 const hashes = new Map()
-let rawdic = []
 let jobs = []
 
 
@@ -16,6 +15,12 @@ self.onmessage = function(msg) {
 		
   }
 
+stats = function() {
+  let biggesthash = [...hashes.keys()].reduce((m, e) => e > m ? e : m)
+  let biggestbucket = [...hashes.values()].reduce((m, e) => e.length > m.length ? e : m)
+  log(`Biggest hash: ${biggesthash.toString(2)}`)
+  log(`Biggest bucket: ${biggestbucket.join(", ")}`)
+}
 
 log(`Downloading dictionary...`)
 let xhr = new XMLHttpRequest();
@@ -26,10 +31,11 @@ xhr.onload = function() {
     log(`Error ${xhr.status}: ${xhr.statusText}`)
   } else {
     log(`Downloaded ${xhr.response.length} bytes`)
-    rawdic = xhr.responseText.split("\n")
+    let rawdic = xhr.responseText.split("\n")
     log(`Hashing ${rawdic.length} words...`)
     mapdic(rawdic)
     log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
+    stats()
   }
 }
     
@@ -48,15 +54,6 @@ xhr.onerror = function(event) {
 
 xhr.send()
 
-stats = function() {
-//  let biggesthash = [...hashes.keys()].reduce((m, e) => e > m ? e : m)
-//  let biggestbucket = [...hashes.values()].reduce((m, e) => e.length > m.length ? e : m)
-//  log(`Biggest hash: ${biggesthash.toString(2)}`)
-//  log(`Biggest bucket: ${biggestbucket.join(", ")}`)
-log(`testing`)
-}
-
-stats()
  
 //my brain refuses to rename this as it returns a pile of hash
 function weedrun(in_str, out = 0n) { 
