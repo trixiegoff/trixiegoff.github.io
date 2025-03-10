@@ -41,15 +41,16 @@
         gwams.addEventListener("message", function handleMessageFromWorker(msg) {
             switch(msg.data[0]) {
                 case "log":
-                		alert(msg.data[1])
                     const parentDiv = document.getElementById("log")
                     const newDiv = document.createElement("div")
                     const textNode = document.createTextNode(msg.data[1])
                     newDiv.appendChild(textNode)
                     parentDiv.appendChild(newDiv)
-                		break
+               		break
+                default:
+                    console.log("MESSAGE FROM GWAMS! 👵", msg)
+                    break
             }
-            console.log("MESSAGE FROM GWAMS! 👵", msg)
         })
         gwams.postMessage("fnord!")
     </script>
