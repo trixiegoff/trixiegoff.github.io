@@ -16,9 +16,13 @@ self.onmessage = function(msg) {
   }
 
 stats = function() {
-  let biggesthash = [...hashes.keys()].reduce((m, e) => e > m ? e : m)
-  let biggestbucket = [...hashes.values()].reduce((m, e) => e.length > m.length ? e : m)
-  log(`Biggest hash: ${biggesthash.toString(16)}=${hashes.get(biggesthash)[0]}`)
+  let biggesthash = [...hashes.keys()].reduce((a, e) => e > a ? e : a)
+  let biggestbucket = [...hashes.values()].reduce((a, e) => e.length > a.length ? e : a)
+  let totalhashbits = [...hashes.keys()].map((e) => e.toString(2).length).reduce((a, e) => e + a, 0)
+  let avghashlength = totalhashbits / hashes.size
+  log(`Total hashes bit size (bits/32bit words) ${totalhashbits}/${}`)
+  log(`Average hash length (bits/32bit words): ${avghashlength}/${avghashlength/32}`)
+  log(`Biggest hash: 0x${biggesthash.toString(16)}=${hashes.get(biggesthash)[0]}`)
   log(`Biggest bucket: ${biggestbucket.join(", ")}`)
 }
 
