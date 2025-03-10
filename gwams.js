@@ -50,7 +50,7 @@ xhr.send()
 
 stats = () => {
   let biggesthash = [...hashes.keys()].reduce((m, e) => e > m ? e : m)
-  let biggestbucket = [...hashes.keys()].reduce((m, e) => e.length > m.length ? e : m)
+  let biggestbucket = [...hashes.values()].reduce((m, e) => e.length > m.length ? e : m)
   log(`Biggest hash: ${biggesthash.toString(2)}`)
   log(`Biggest bucket: ${biggestbucket.join(", ")}`)
 }
