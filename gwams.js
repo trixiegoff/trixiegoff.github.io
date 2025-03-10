@@ -30,9 +30,11 @@ stats = function() {
   let biggestbucket = [...hashes.values()].reduce((a, e) => e.length > a.length ? e : a)
   let totalhashbits = [...hashes.keys()].map((e) => e.toString(2).length).reduce((a, e) => e + a, 0)
   let totaluniquechars = [...hashes.keys()].reduce((a, e) => charcount(e) + a, 0)
+  let mostuniquechars = [...hashes.keys()].reduce((a, e) => charcount(e) > a ? e : a)
   let avghashlength = totalhashbits / hashes.size
   log(`Total hashes bit size (bits/32bit words) ${totalhashbits}/${totalhashbits/32}`)
   log(`Unique characters per entry (dictionary total/avg per dictionary word) ${totaluniquechars}/${totaluniquechars/hashes.size}`)
+  log(`Most unique characters in a word: ${hashes.get(mostuniquechars).join(", ")}`)
   log(`Average hash length (bits/32bit words): ${avghashlength}/${avghashlength/32}`)
   log(`Biggest hash: 0x${biggesthash.toString(16)}=${hashes.get(biggesthash)[0]}`)
   log(`Biggest bucket: ${biggestbucket.join(", ")}`)
