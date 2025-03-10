@@ -15,12 +15,24 @@ self.onmessage = function(msg) {
 		
   }
 
+charcount = function (hash) {
+    n = 0b11111111111111111111111111n & hash //we only care about the lowest 26 bits
+    let count = 0;
+    while (n > 0) {
+	    n &= (n - 1n);
+      count++;
+    }
+    return count;
+}
+
 stats = function() {
   let biggesthash = [...hashes.keys()].reduce((a, e) => e > a ? e : a)
   let biggestbucket = [...hashes.values()].reduce((a, e) => e.length > a.length ? e : a)
   let totalhashbits = [...hashes.keys()].map((e) => e.toString(2).length).reduce((a, e) => e + a, 0)
+  let totaluniquechars = [...hashes.keys()].reduce((a, e) => charcount(e) + a, 0)
   let avghashlength = totalhashbits / hashes.size
   log(`Total hashes bit size (bits/32bit words) ${totalhashbits}/${totalhashbits/32}`)
+  log(`Unique characters per entry (dictionary total/avg per dictionary word) ${totaluniquechars}/${totaluniquechars/hashes.size}`)
   log(`Average hash length (bits/32bit words): ${avghashlength}/${avghashlength/32}`)
   log(`Biggest hash: 0x${biggesthash.toString(16)}=${hashes.get(biggesthash)[0]}`)
   log(`Biggest bucket: ${biggestbucket.join(", ")}`)
@@ -135,6 +147,7 @@ function add_slow(hash1, hash2) { //original bit by bit algorithm
     }
   return hash2
 }
+
 
 
 function findgwams(hash1 = 0n, gwams = []) {
