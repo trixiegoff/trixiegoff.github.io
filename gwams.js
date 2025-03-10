@@ -34,7 +34,7 @@ stats = function() {
   let avghashlength = totalhashbits / hashes.size
   log(`Total hashes bit size (bits/32bit words) ${totalhashbits}/${totalhashbits/32}`)
   log(`Unique characters per entry (dictionary total/avg per dictionary word) ${totaluniquechars}/${totaluniquechars/hashes.size}`)
-  log(`Most unique characters in a word: ${hashes.get(mostuniquechars).join(", ")}`)
+  log(`Most unique characters in a word: ${hashes.get(mostuniquechars).join(", ")} (${charcount(mostuniquechars)} unique chars)`)
   log(`Average hash length (bits/32bit words): ${avghashlength}/${avghashlength/32}`)
   log(`Biggest hash: 0x${biggesthash.toString(16)}=${hashes.get(biggesthash)[0]}`)
   log(`Biggest bucket: ${biggestbucket.join(", ")}`)
