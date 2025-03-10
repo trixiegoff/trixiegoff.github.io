@@ -62,7 +62,7 @@ function mapdic(rawdic) {
  	words = rawdic.split("\n")
   for (word of words) {
 		let hash = weedrun(word)
-    if hashes.has(hash) {
+    if (hashes.has(hash)) {
     	hashes.set(hash, [...hashes.get(hash), word])
     } else {
       hashes.set(hash, [word])
