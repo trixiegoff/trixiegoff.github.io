@@ -12,37 +12,41 @@ log = function(text) {
 }
 
 self.onmessage = function(msg) {
-  log("I GOT YOUR MESSAGE! 😌")
+  //log("I GOT YOUR MESSAGE! 😌")
+	
   }
 
-let xhr = new XMLHttpRequest();
-xhr.open('GET', 'words.txt');
+init = () => {
+  	log(`Downloading dictionary...`)
+		let xhr = new XMLHttpRequest();
+		xhr.open('GET', 'words.txt');
 
-xhr.onload = function() {
-  if (xhr.status != 200) {
-    log(`Error ${xhr.status}: ${xhr.statusText}`)
-  } else {
-    log(`Done, got ${xhr.response.length} bytes`)
-	rawdic = xhr.responseText.split("\n")
-	log(`Downloaded ${rawdic.length} words, processing hashtograms...`)
-  mapdic(rawdic)
-  log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
-  }
-}
-
-xhr.onprogress = function(event) {
-  if (event.lengthComputable) {
-    log(`Received ${event.loaded} of ${event.total} bytes`)
-  } else {
-    log(`Received ${event.loaded} bytes`)
-  }
-}
-
-xhr.onerror = function() {
-  log("🫠 Failed to load dictionary!")
-}
-
-xhr.send()
+		xhr.onload = function() {
+      if (xhr.status != 200) {
+        log(`Error ${xhr.status}: ${xhr.statusText}`)
+      } else {
+        log(`Downloaded ${xhr.response.length} bytes`)
+    	rawdic = xhr.responseText.split("\n")
+    	log(`Hashing ${rawdic.length} words...`)
+      mapdic(rawdic)
+      log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
+      }
+    }
+    
+    xhr.onprogress = function(event) {
+      if (event.lengthComputable) {
+        log(`Downloaded ${event.loaded} of ${event.total} bytes`)
+      } else {
+        log(`Downloaded ${event.loaded} bytes`)
+      }
+    }
+    
+    xhr.onerror = function() {
+      log("🫠 Failed to load dictionary!")
+    }
+    
+    xhr.send()
+    }
  
 //my brain refuses to rename this as it returns# a pile of hash
 function weedrun(in_str, out = 0n) { 
