@@ -48,13 +48,20 @@ xhr.onerror = function(event) {
 
 xhr.send()
 
-log`${hashes.groupBy(bucket => bucket.size)}`
+stats = () => {
+  let biggesthash = [...hashes.keys()].reduce((m, e) => e > m ? e : m)
+  let biggestbucket = [...hashes.keys()].reduce((m, e) => e.length > m.length ? e : m)
+  log(`Biggest hash: ${biggesthash.toString(2)}`)
+  log(`Biggest bucket: ${biggestbucket.join(", ")}`)
+}
+
+stats()
  
-//my brain refuses to rename this as it returns# a pile of hash
+//my brain refuses to rename this as it returns a pile of hash
 function weedrun(in_str, out = 0n) { 
   for (c of in_str) {
     let n = BigInt((c.charCodeAt() & ~32) - 65) //lower case & normalize
-    if (!((n > 26) || (n < 0))) { //only process english alphabet
+    if (!((n > 26n) || (n < 0n))) { //only process english alphabet
       n = 1n << n //set bit n
     	while ((n & out) == n) n <<= 26n //if collision shift up 26 bits
     	out |= n //park that bit
@@ -126,6 +133,7 @@ function add_slow(hash1, hash2) { //original bit by bit algorithm
     }
   return hash2
 }
+
 
 function findgwams(hash1 = 0n, gwams = []) {
   //hashes.forEach((hash2, i) => if ((hash1 & hash2) == hash2) gwams.push(hi))
