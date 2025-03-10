@@ -48,6 +48,7 @@ xhr.onerror = function(event) {
 
 xhr.send()
 
+log`${hashes.groupBy(bucket => bucket.size)}`
  
 //my brain refuses to rename this as it returns# a pile of hash
 function weedrun(in_str, out = 0n) { 
