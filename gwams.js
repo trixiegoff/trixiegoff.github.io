@@ -58,8 +58,7 @@ function weedrun(in_str, out = 0n) {
 }
 
 
-function mapdic(rawdic) {
- 	words = rawdic.split("\n")
+function mapdic(words) {
   for (word of words) {
 		let hash = weedrun(word)
     if (hashes.has(hash)) {
