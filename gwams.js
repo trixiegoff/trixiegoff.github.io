@@ -1,5 +1,5 @@
 const hashes = new Map()
-let jobs = []
+let jobs = new Map()
 
 
 msg = function(type, payload) {
@@ -11,8 +11,8 @@ log = function(text) {
 }
 
 self.onmessage = function(msg) {
-  //log("I GOT YOUR MESSAGE! 😌")
-		
+  [cmd, param] = ...msg.data
+  log(`Command: <pre>${cmd}</pre>, Param: <pre>${param}</pre>`)
   }
 
 charcount = function (hash) {
