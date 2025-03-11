@@ -39,7 +39,7 @@ stats = function() {
   log(`Biggest hash: 0x${biggesthash.toString(16)}=${hashes.get(biggesthash)[0]}`)
   log(`Biggest bucket: ${biggestbucket.join(", ")}`)
 }
-1132456
+
 log(`Downloading dictionary...`)
 let xhr = new XMLHttpRequest();
 xhr.open('GET', 'words.txt');
