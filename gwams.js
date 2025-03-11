@@ -14,7 +14,7 @@ self.onmessage = function(msg) {
   [cmd, param] = msg.data
   log(`Command: ${cmd}, Param: ${param}`)
   
-  switch cmd {
+  switch (cmd) {
     case "init":
     	init()
     	break
