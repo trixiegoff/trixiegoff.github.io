@@ -16,7 +16,11 @@ self.onmessage = function(msg) {
   
   switch (cmd) {
     case "init":
-    	init()
+    	init(param)
+    	break
+    case "initv":
+    	init(param)
+      stats()
     	break
     }
   }
@@ -61,7 +65,6 @@ init = function(dic="words") {
 	    log(`Hashing ${rawdic.length} words...`)
 	    mapdic(rawdic)
 	    log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
- 	    stats()
 	  }
 	}
     
