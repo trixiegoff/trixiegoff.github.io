@@ -11,18 +11,28 @@ log = function(text) {
 }
 
 self.onmessage = function(msg) {
-  [cmd, param] = msg.data
-  log(`Command: ${cmd}, Param: ${param}`)
+  [cmd, params] = msg.data
   
   switch (cmd) {
     case "init":
-    	init(param)
+    	init(params)
     	break
     case "stats":
 			stats()
     	break
+    case "gwams":
+    	gwams(params)
+    	break
+    default:
+    	log(`Command: ${cmd}, Param: ${param}`)
+      break
     }
-  }
+}
+
+gwams = function (hayshstack) {
+  atoms = hashes.keys().filter((hashneedle) => hashneedle & hayshstack == hashneedle)
+  atoms.forEach((hash) => msg(["results", hashes.get(hash)]))
+}
 
 charcount = function (hash) {
     n = 0b11111111111111111111111111n & hash //we only care about the lowest 26 bits
@@ -32,7 +42,7 @@ charcount = function (hash) {
       count++;
     }
     return count;
-}
+	}
 
 stats = function() {
   let biggesthash = [...hashes.keys()].reduce((a, e) => e > a ? e : a)
@@ -51,6 +61,8 @@ stats = function() {
 
 
 init = function(dic="words") {
+  msg(["state", "unready"])
+  hashes.clear()
 	log(`Downloading dictionary...`)
 	let xhr = new XMLHttpRequest();
 	xhr.open('GET', `${dic}.txt`);
@@ -64,6 +76,7 @@ init = function(dic="words") {
 	    log(`Hashing ${rawdic.length} words...`)
 	    mapdic(rawdic)
 	    log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
+      msg(["state", "ready"])
 	  }
 	}
     
@@ -81,9 +94,8 @@ init = function(dic="words") {
 	}
 
 	xhr.send()
-  return xhr
 }
- 
+
 //my brain refuses to rename this as it returns a pile of hash
 weedrun = function(in_str, out = 0n) { 
   for (c of in_str) {
