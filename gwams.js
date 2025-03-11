@@ -39,7 +39,7 @@ stats = function() {
   log(`Biggest hash: 0x${biggesthash.toString(16)}=${hashes.get(biggesthash)[0]}`)
   log(`Biggest bucket: ${biggestbucket.join(", ")}`)
 }
-
+1132456
 log(`Downloading dictionary...`)
 let xhr = new XMLHttpRequest();
 xhr.open('GET', 'words.txt');
@@ -98,20 +98,6 @@ function mapdic(words) {
 	}
 }
 
-function eatdic(rawdic) {
- 	words = rawdic[0].split("\n")
-  for (word of words) {
-		let hash = weedrun(word)
-		let hi = hashes.indexOf(hash)
-    if (hi == -1) {
-    		hashes.push(hash)
-      hi = hashes.indexOf(hash)
-      }
-		anagrams[hi] = anagrams[hi] ?? ""
-		anagrams[hi] += word + ","
-	}
-}
-
 
 function subtract(hash1, hash2) {
   while((hash1 & hash2) != 0n) {
@@ -148,12 +134,5 @@ function add_slow(hash1, hash2) { //original bit by bit algorithm
     pos = (hash1 & -hash1)
     }
   return hash2
-}
-
-
-
-function findgwams(hash1 = 0n, gwams = []) {
-  //hashes.forEach((hash2, i) => if ((hash1 & hash2) == hash2) gwams.push(hi))
-  //return gwams
 }
 
