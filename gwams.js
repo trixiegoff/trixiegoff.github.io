@@ -11,8 +11,8 @@ log = function(text) {
 }
 
 self.onmessage = function(msg) {
-  //[cmd, param] = ...msg.data
-  //log(`Command: <pre>${cmd}</pre>, Param: <pre>${param}</pre>`)
+  [cmd, param] = msg.data
+  log(`Command: <pre>${cmd}</pre>, Param: <pre>${param}</pre>`)
   }
 
 charcount = function (hash) {
