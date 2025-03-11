@@ -12,7 +12,13 @@ log = function(text) {
 
 self.onmessage = function(msg) {
   [cmd, param] = msg.data
-  log(`Command: <pre>${cmd}</pre>, Param: <pre>${param}</pre>`)
+  log(`Command: ${cmd}, Param: ${param}`)
+  
+  switch cmd {
+    case "init":
+    	init()
+    	break
+    }
   }
 
 charcount = function (hash) {
@@ -40,41 +46,44 @@ stats = function() {
   log(`Biggest bucket: ${biggestbucket.join(", ")}`)
 }
 
-log(`Downloading dictionary...`)
-let xhr = new XMLHttpRequest();
-xhr.open('GET', 'words.txt');
 
-xhr.onload = function() {
-  if (xhr.status != 200) {
-    log(`Error ${xhr.status}: ${xhr.statusText}`)
-  } else {
-    log(`Downloaded ${xhr.response.length} bytes`)
-    let rawdic = xhr.responseText.split("\n")
-    log(`Hashing ${rawdic.length} words...`)
-    mapdic(rawdic)
-    log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
-    stats()
-  }
-}
+init = function(dic="words") {
+	log(`Downloading dictionary...`)
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', `${dic}.txt`);
+
+	xhr.onload = function() {
+	  if (xhr.status != 200) {
+	    log(`Error ${xhr.status}: ${xhr.statusText}`)
+	  } else {
+	    log(`Downloaded ${xhr.response.length} bytes`)
+	    let rawdic = xhr.responseText.split("\n")
+	    log(`Hashing ${rawdic.length} words...`)
+	    mapdic(rawdic)
+	    log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
+ 	    stats()
+	  }
+	}
     
-xhr.onprogress = function(event) {
-  if (event.lengthComputable) {
-    log(`Downloaded ${event.loaded} of ${event.total} bytes`)
-  } else {
-    log(`Downloaded ${event.loaded} bytes`)
+	xhr.onprogress = function(event) {
+ 		if (event.lengthComputable) {
+    	log(`Downloaded ${event.loaded} of ${event.total} bytes`)
+  	} else {
+    	log(`Downloaded ${event.loaded} bytes`)
 		}
-}
+	}
 
-xhr.onerror = function(event) {
-  log(`Failed to load dictionary!`)
+	xhr.onerror = function(event) {
+ 		log(`Failed to load dictionary!`)
 		console.log(event)
+	}
+
+	xhr.send()
+  return xhr
 }
-
-xhr.send()
-
  
 //my brain refuses to rename this as it returns a pile of hash
-function weedrun(in_str, out = 0n) { 
+weedrun = function(in_str, out = 0n) { 
   for (c of in_str) {
     let n = BigInt((c.charCodeAt() & ~32) - 65) //lower case & normalize
     if (!((n > 26n) || (n < 0n))) { //only process english alphabet
@@ -87,7 +96,7 @@ function weedrun(in_str, out = 0n) {
 }
 
 
-function mapdic(words) {
+mapdic = function(words) {
   for (word of words) {
 		let hash = weedrun(word)
     if (hashes.has(hash)) {
@@ -99,7 +108,7 @@ function mapdic(words) {
 }
 
 
-function subtract(hash1, hash2) {
+subtract = function(hash1, hash2) {
   while((hash1 & hash2) != 0n) {
     hash2 <<= 26n
   }
@@ -112,7 +121,7 @@ function subtract(hash1, hash2) {
   return hash1
 }
 
-function add(hash1, hash2) { //new hotness
+add = function(hash1, hash2) { //new hotness
   while(hash2 > 0n) {
     smoke = (hash2 ^ hash1)
     hash1 |= hash2
@@ -123,7 +132,7 @@ function add(hash1, hash2) { //new hotness
 }
 
 
-function add_slow(hash1, hash2) { //original bit by bit algorithm
+add_slow = function(hash1, hash2) { //original bit by bit algorithm
   let pos = (hash1 & -hash1) //get lowest set bit column
   while(pos != 0) {
     hash1 = hash1 & ~pos //unset lowest set bit column
