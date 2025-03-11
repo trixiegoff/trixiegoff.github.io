@@ -18,9 +18,8 @@ self.onmessage = function(msg) {
     case "init":
     	init(param)
     	break
-    case "initv":
-    	init(param)
-      stats()
+    case "stats":
+			stats()
     	break
     }
   }
