@@ -10,15 +10,21 @@
             color: lime;
             display: flex;
             justify-content: center;
-            align-items: bottom;
+            align-items: center;
             height: 100vh;
             margin: 0;
         }
         
         #log {
-            font-family: monospace, monospace, monspace;
+            font-family: monospace, monospace, monospace;
+            opacity: 0.69;
             }
 
+        #results {
+            font-family: monospace, monospace, monospace;
+            opacity: 0.69;
+            }
+        
         input[type="text"] {
             position: fixed;
             width: 100%;
@@ -27,34 +33,53 @@
             transform: translate(-50%, -50%);
             background-color: rgba(0, 0, 0, 0.69);
             z-index: 1000;
-            font-size: 72px;
+            font-size: 72pt;
             color: inherit;
             border: 0px solid lime;
             padding: 0px;
             text-align: center;
         }
+        
+        input:valid {
+            top: 0%;
+            font-size: 32pt;
+            transform: translate(-50%, 0);
+        }
+
     </style>
     <script>
+    		log = function (text) {
+            const parentDiv = document.getElementById("log")
+            const newDiv = document.createElement("div")
+            const textNode = document.createTextNode(data)
+            newDiv.appendChild(textNode)
+            parentDiv.appendChild(newDiv)
+            }
+
+        let state = "unloaded"
         const gwams = new Worker("gwams.js")
-        gwams.addEventListener("message", function handleMessageFromWorker(msg) {
-            switch(msg.data[0]) {
+        gwams.addEventListener("message", (msg) => {
+            [type, data] = msg
+            switch(type) {
                 case "log":
-                    const parentDiv = document.getElementById("log")
-                    const newDiv = document.createElement("div")
-                    const textNode = document.createTextNode(msg.data[1])
-                    newDiv.appendChild(textNode)
-                    parentDiv.appendChild(newDiv)
+         			log(data)
                		break
+                case "state":
+                		state = data
+                		break
+                case "result":
+                		
+                		break
                 default:
                     console.log("MESSAGE FROM GWAMS! 👵", msg)
                     break
             }
         })
-        gwams.postMessage(["initv", "words"])
+        gwams.postMessage(["init", "words"])
     </script>
 </head>
 <body>
     <div id="log"></div>
-    <input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus>
+    <input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required>
 </body>
 </html>
