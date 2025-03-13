@@ -44,7 +44,8 @@
         const gwams = new Worker("gwams.js")
         
         gwams.addEventListener("message", (msg) => {
-            [type, data] = msg
+            type = msg[0]
+            data = msg[1]
             switch(type) {
                 case "log":
                     const parentDiv = document.getElementById("log")
