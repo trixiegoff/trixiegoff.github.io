@@ -38,40 +38,21 @@
             border: 0px solid lime;
             padding: 0px;
             text-align: center;
-            transition: transform 0.2s linear 0s;
         }
-        
-        input:valid {
-            top: 0%;
-            font-size: 32pt;
-            transform: translate(-50%, 0);
-            transition: transform 0.2s linear 0s;
-        }
-
     </style>
     <script>
-    	let log = function (text) {
-            const parentDiv = document.getElementById("log")
-            const newDiv = document.createElement("div")
-            const textNode = document.createTextNode(text)
-            newDiv.appendChild(textNode)
-            parentDiv.appendChild(newDiv)
-            }
-
-        let state = "unloaded"
         const gwams = new Worker("gwams.js")
+        
         gwams.addEventListener("message", (msg) => {
             [type, data] = msg
             switch(type) {
                 case "log":
-         			log(data)
+                    const parentDiv = document.getElementById("log")
+                    const newDiv = document.createElement("div")
+                    const textNode = document.createTextNode(data)
+                    newDiv.appendChild(textNode)
+                    parentDiv.appendChild(newDiv)
                		break
-                case "state":
-                		state = data
-                		break
-                case "result":
-                		
-                		break
                 default:
                     console.log("MESSAGE FROM GWAMS! 👵", msg)
                     break
