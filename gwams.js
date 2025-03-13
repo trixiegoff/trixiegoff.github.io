@@ -2,11 +2,11 @@ const hashes = new Map()
 let jobs = new Map()
 
 
-msg = function(type, payload) {
+let msg = function(type, payload) {
   self.postMessage([type, payload])
 }
 
-log = function(text) {
+let log = function(text) {
   msg("log", text)
 }
 
@@ -29,7 +29,7 @@ self.onmessage = function(msg) {
     }
 }
 
-gwams = function (hayshstack) {
+let gwams = function (hayshstack) {
   atoms = hashes.keys().filter((hashneedle) => hashneedle & hayshstack == hashneedle)
   atoms.forEach((hash) => msg(["results", hashes.get(hash)]))
 }
@@ -61,7 +61,7 @@ stats = function() {
 
 
 init = function(dic="words") {
-  msg(["state", "unready"])
+  //msg(["state", "unready"])
   hashes.clear()
 	log(`Downloading dictionary...`)
 	let xhr = new XMLHttpRequest();
