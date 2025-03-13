@@ -2,37 +2,27 @@ const hashes = new Map()
 let jobs = new Map()
 
 
-let msg = function(type, payload) {
+msg = function(type, payload) {
   self.postMessage([type, payload])
 }
 
-let log = function(text) {
+log = function(text) {
   msg("log", text)
 }
 
 self.onmessage = function(msg) {
-  [cmd, params] = msg.data
+  [cmd, param] = msg.data
+  log(`Command: ${cmd}, Param: ${param}`)
   
   switch (cmd) {
     case "init":
-    	init(params)
+    	init(param)
     	break
     case "stats":
 			stats()
     	break
-    case "gwams":
-    	gwams(params)
-    	break
-    default:
-    	log(`Command: ${cmd}, Param: ${param}`)
-      break
     }
-}
-
-let gwams = function (hayshstack) {
-  atoms = hashes.keys().filter((hashneedle) => hashneedle & hayshstack == hashneedle)
-  atoms.forEach((hash) => msg(["results", hashes.get(hash)]))
-}
+  }
 
 charcount = function (hash) {
     n = 0b11111111111111111111111111n & hash //we only care about the lowest 26 bits
@@ -42,7 +32,7 @@ charcount = function (hash) {
       count++;
     }
     return count;
-	}
+}
 
 stats = function() {
   let biggesthash = [...hashes.keys()].reduce((a, e) => e > a ? e : a)
@@ -61,8 +51,6 @@ stats = function() {
 
 
 init = function(dic="words") {
-  //msg(["state", "unready"])
-  hashes.clear()
 	log(`Downloading dictionary...`)
 	let xhr = new XMLHttpRequest();
 	xhr.open('GET', `${dic}.txt`);
@@ -76,7 +64,6 @@ init = function(dic="words") {
 	    log(`Hashing ${rawdic.length} words...`)
 	    mapdic(rawdic)
 	    log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
-      msg(["state", "ready"])
 	  }
 	}
     
@@ -94,8 +81,9 @@ init = function(dic="words") {
 	}
 
 	xhr.send()
+  return xhr
 }
-
+ 
 //my brain refuses to rename this as it returns a pile of hash
 weedrun = function(in_str, out = 0n) { 
   for (c of in_str) {
@@ -112,7 +100,7 @@ weedrun = function(in_str, out = 0n) {
 
 mapdic = function(words) {
   for (word of words) {
-		let hash = weedrun(word)
+	let hash = weedrun(word)
     if (hashes.has(hash)) {
     	hashes.set(hash, [...hashes.get(hash), word])
     } else {
@@ -158,4 +146,3 @@ add_slow = function(hash1, hash2) { //original bit by bit algorithm
     }
   return hash2
 }
-
