@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GWAMS!!!!!!!!1111111</title>
+    <title>GWAMS!1</title>
     <style>
         body {
             background-color: black;
@@ -40,6 +40,12 @@
             padding: 0px;
             text-align: center;
         }
+        
+        input:required:valid: {
+            font-size: 27pt;
+            top: 0%;
+            transform: translate(-50%, 0%);
+        }
     </style>
     <script>
         const gwams = new Worker("gwams.js")
@@ -48,19 +54,13 @@
             [type, data] = msg.data
             switch(type) {
                 case "log":
-      			    parentDiv = document.getElementById("log")
-    			        newDiv = document.createElement("log")
-            			textNode = document.createTextNode(data)
-            			newDiv.appendChild(textNode)
-            			parentDiv.appendChild(newDiv)
+					document.getElementById("log")
+                    		.appendChild(document.createElement("log")
+                        		.appendChild(document.createTextNode(data)))
                		break
                 case "results":
-      			    parentDiv = document.getElementById("log")
-    			        newDiv = document.createElement("results")
-            			textNode = document.createTextNode(data)
-            			newDiv.appendChild(textNode)
-            			parentDiv.appendChild(newDiv)
-                		break
+      				document.getElementById("results").innerHTML = data
+                	break
                 default:
                     console.log("MESSAGE FROM GWAMS! 👵", msg)
                     break
@@ -79,5 +79,6 @@
 <body>
     <div id="log"></div>
     <input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required onkeypress="gwams.postMessage(['gwams', this.value])">
+    <div id="results"></div>
 </body>
 </html>
