@@ -55,6 +55,11 @@
             			parentDiv.appendChild(newDiv)
                		break
                 case "results":
+      			    parentDiv = document.getElementById("log")
+    			        newDiv = document.createElement("results")
+            			textNode = document.createTextNode(data)
+            			newDiv.appendChild(textNode)
+            			parentDiv.appendChild(newDiv)
                 		break
                 default:
                     console.log("MESSAGE FROM GWAMS! 👵", msg)
