@@ -36,7 +36,7 @@ self.onmessage = function(msg) {
     	hashes.forEach((w, h) => {
         if ((h & inhash) == h) words.push(w)
         })
-        msg(["results", words.flat(Infinity)])
+	self.postMessage(["results", words.flat(Infinity)])
     	break
     case "stats":
 			stats()
