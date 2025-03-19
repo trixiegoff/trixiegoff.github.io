@@ -1,6 +1,18 @@
 const hashes = new Map()
 let jobs = new Map()
 
+//my brain refuses to rename this as it returns a pile of hash
+weedrun = function(in_str, out = 0n) { 
+  for (c of in_str) {
+    let n = BigInt((c.charCodeAt() & ~32) - 65) //lower case & normalize
+    if (!((n > 26n) || (n < 0n))) { //only process english alphabet
+      n = 1n << n //set bit n
+    	while ((n & out) == n) n <<= 26n //if collision shift up 26 bits
+    	out |= n //park that bit
+    }
+  }
+  return out //return the delicious hashtogram
+}
 
 msg = function(type, payload) {
   self.postMessage([type, payload])
@@ -90,19 +102,6 @@ init = function(dic="words") {
 
 	xhr.send()
   return xhr
-}
- 
-//my brain refuses to rename this as it returns a pile of hash
-weedrun = function(in_str, out = 0n) { 
-  for (c of in_str) {
-    let n = BigInt((c.charCodeAt() & ~32) - 65) //lower case & normalize
-    if (!((n > 26n) || (n < 0n))) { //only process english alphabet
-      n = 1n << n //set bit n
-    	while ((n & out) == n) n <<= 26n //if collision shift up 26 bits
-    	out |= n //park that bit
-    }
-  }
-  return out //return the delicious hashtogram
 }
 
 
