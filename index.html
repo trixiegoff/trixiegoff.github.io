@@ -68,12 +68,12 @@
         })
         gwams.postMessage(["init", "words"])
         
-		const input = document.getElementById("words")
+		wank = document.getElementById("words")
         
-		input.addEventListener("keypress", function(event) {
+        wank.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
 				event.preventDefault()
-				gwams.postMessage(["gwams", input.value])
+				gwams.postMessage(["gwams", wank.value])
   			}
 		})
     </script>
