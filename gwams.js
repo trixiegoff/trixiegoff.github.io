@@ -19,6 +19,11 @@ self.onmessage = function(msg) {
     	init(param)
     	break
     case "gwams":
+    	let words = []
+    	hashes.forEach((w, h) => {
+        if (h & param == h) words.push(w)
+        })
+        msg(["results", words.flat(Infinity)])
     	break
     case "stats":
 			stats()
