@@ -23,6 +23,7 @@
             
         results {
             color: magenta;
+	    font-family: monospace, monospace, monospace;
             display: block;
             }
         
@@ -33,7 +34,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: rgba(0, 0, 0, 0.69);
-            z-index: 1000;
+            z-index: 1001;
             font-size: 72pt;
             color: inherit;
             border: 0px solid lime;
@@ -41,13 +42,14 @@
             text-align: center;
         }
         
-        input:required:valid: {
+        input:required:valid {
+	    position: sticky;
+            top: 0;
             font-size: 27pt;
-            top: 0%;
-            transform: translate(-50%, 0%);
+
         }
         
-        #results {
+        table {
             z-index: 1000;
         }
     </style>
@@ -82,7 +84,9 @@
 </head>
 <body>
     <div id="log"></div>
-    <input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required onkeypress="gwams.postMessage(['gwams', this.value])">
-    <div id="results"></div>
+	<table height="100%" width="100%">
+		<tr><td><input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required oninput="gwams.postMessage(['gwams', this.value])"></td></tr>
+		<tr><td><div id="results"></div></td></tr>
+	</table>
 </body>
 </html>
