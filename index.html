@@ -55,11 +55,7 @@
             [type, data] = msg.data
             switch(type) {
                 case "log":
-                    const parentDiv = document.getElementById("log")
-                    const newDiv = document.createElement("div")
-                    const textNode = document.createTextNode(data)
-                    newDiv.appendChild(textNode)
-                    parentDiv.appendChild(newDiv)
+                    append(data)
                		break
                 case "results":
                 		break
