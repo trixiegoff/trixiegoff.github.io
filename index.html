@@ -78,6 +78,6 @@
 </head>
 <body>
     <div id="log"></div>
-    <input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required>
+    <input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required onkeypress="gwams.postMessage(['gwams', this.value])">
 </body>
 </html>
