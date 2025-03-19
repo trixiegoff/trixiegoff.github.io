@@ -15,13 +15,15 @@
             margin: 0;
         }
         
-        .results {
-            color: magenta
-        }
-        
-        #log {
+        log {
             font-family: monospace, monospace, monospace;
             opacity: 0.69;
+            display: block;
+            }
+            
+        results {
+            color: magenta;
+            display: block;
             }
         
         input[type="text"] {
@@ -42,20 +44,15 @@
     <script>
         const gwams = new Worker("gwams.js")
         
-        append = function(txt, cls="log") {
-            const parentDiv = document.getElementById("log")
-            const newDiv = document.createElement("div")
-            newDiv.classlist.add(cls)
-            const textNode = document.createTextNode(txt)
-            newDiv.appendChild(textNode)
-            parentDiv.appendChild(newDiv)
-        }
-        
         gwams.addEventListener("message", (msg) => {
             [type, data] = msg.data
             switch(type) {
                 case "log":
-                    append(data)
+      			    parentDiv = document.getElementById("log")
+    			        newDiv = document.createElement("log")
+            			textNode = document.createTextNode(data)
+            			newDiv.appendChild(textNode)
+            			parentDiv.appendChild(newDiv)
                		break
                 case "results":
                 		break
