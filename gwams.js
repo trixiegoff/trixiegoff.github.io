@@ -34,7 +34,7 @@ self.onmessage = function(msg) {
     	let inhash = weedrun(param)
     	let words = []
     	hashes.forEach((w, h) => {
-        if (h & inhash == h) words.push(w)
+        if ((h & inhash) == h) words.push(w)
         })
         msg(["results", words.flat(Infinity)])
     	break
