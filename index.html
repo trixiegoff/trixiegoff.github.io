@@ -15,12 +15,11 @@
             margin: 0;
         }
         
+        .results {
+            color: magenta
+        }
+        
         #log {
-            font-family: monospace, monospace, monospace;
-            opacity: 0.69;
-            }
-
-        #results {
             font-family: monospace, monospace, monospace;
             opacity: 0.69;
             }
@@ -54,7 +53,13 @@
                     parentDiv.appendChild(newDiv)
                		break
                 case "results":
-                		break
+                    const parentDiv = document.getElementById("log")
+                    const newDiv = document.createElement("div")
+                    newDiv.classlist.add("results")
+                    const textNode = document.createTextNode(data.join(", "))
+                    newDiv.appendChild(textNode)
+                    parentDiv.appendChild(newDiv)              		
+                	break
                 default:
                     console.log("MESSAGE FROM GWAMS! 👵", msg)
                     break
