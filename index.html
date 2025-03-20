@@ -20,9 +20,13 @@
             }
             
         #results {
-        	display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(max-content, 1fr));
-            gap: 10px;
+        	display: flex;
+			flex-flow: column wrap;
+			flex-wrap: column wrap row;
+			flex-direction: column;
+			height: 100vh;
+			width: 100vw;
+
             color: magenta;
 	    	font-family: monospace, monospace, monospace;
             }
