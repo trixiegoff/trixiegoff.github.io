@@ -54,7 +54,7 @@
                         		.appendChild(document.createTextNode(data + "\n<br/>")))
                		break
                 case "results":
-      				document.getElementById("results").innerHTML = `FOUND ${data.length}<br/>\n${data.join("<br/>\n"}`)
+      				document.getElementById("results").innerHTML = data.join("<br/>\n")
                 	break
                 default:
                     console.log("unknown msg type!", msg)
