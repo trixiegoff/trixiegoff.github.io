@@ -20,11 +20,11 @@
             }
             
         #results {
-            columns: 5;
-            column-width: fit-content;
+        	display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(max-content, 1fr));
+            gap: 10px;
             color: magenta;
 	    	font-family: monospace, monospace, monospace;
-            display: block;
             }
         
         input[type="text"] {
@@ -42,7 +42,11 @@
         
         input:required:valid {
         }
+        
+
     </style>
+</head>
+<body>
     <script>
         const gwams = new Worker("gwams.js")
         
@@ -55,10 +59,10 @@
                         		.appendChild(document.createTextNode(data)))
                		break
                 case "results":
-      				document.getElementById("results").innerHTML = data.join("<br/>\n")
+      				document.getElementById("results").innerHTML = `<div>${data.join("</div><div>")}</div>`
                 	break
                 default:
-                    console.log("unknown msg type!", msg)
+                    console.log(`unknown msg type: ${type}`, msg)
                     break
             }
         })
