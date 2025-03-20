@@ -15,15 +15,16 @@
             margin: 0;
         }
         
-        log {
+        #log {
             font-family: monospace, monospace, monospace;
             opacity: 0.69;
             display: block;
             }
             
-        results {
+        #results {
+            columns: 3;
             color: magenta;
-	    font-family: monospace, monospace, monospace;
+	    	font-family: monospace, monospace, monospace;
             display: block;
             }
         
@@ -43,13 +44,14 @@
         }
         
         input:required:valid {
-	    position: sticky;
+		    position: sticky;
             top: 0;
             font-size: 27pt;
-
         }
         
         table {
+            width: 100%;
+            height: 100%
             z-index: 1000;
         }
     </style>
@@ -61,7 +63,7 @@
             switch(type) {
                 case "log":
 					document.getElementById("log")
-                    		.appendChild(document.createElement("log")
+                    		.appendChild(document.createElement("div")
                         		.appendChild(document.createTextNode(data)))
                		break
                 case "results":
@@ -86,7 +88,7 @@
     <div id="log"></div>
 	<table height="100%" width="100%">
 		<tr><td><input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required oninput="gwams.postMessage(['gwams', this.value])"></td></tr>
-		<tr><td><div id="results"></div></td></tr>
+		<tr><td valign="top" id="results"></td></tr>
 	</table>
 </body>
 </html>
