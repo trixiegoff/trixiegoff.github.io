@@ -67,10 +67,10 @@
                         		.appendChild(document.createTextNode(data)))
                		break
                 case "results":
-      				document.getElementById("results").innerHTML = data
+      				document.getElementById("results").innerHTML = data.join("<br/>\n")
                 	break
                 default:
-                    console.log("MESSAGE FROM GWAMS! 👵", msg)
+                    console.log("unknown msg type!", msg)
                     break
             }
         })
