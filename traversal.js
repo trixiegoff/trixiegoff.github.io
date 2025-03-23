@@ -1,3 +1,68 @@
+atomicweedrun = function(in_vals, max_val, out = 0n) {
+  let m = BigInt(max_val)
+  for (v of in_vals) {
+    let n = BigInt(v - 1)
+    n = 1n << n //set bit n
+    while ((n & out) == n) n <<= m //if collision shift up max_val bits
+    out |= n //park that bit
+  }
+  return out //return the delicious hashtogram
+}
+
+weedrun = function(in_str, out = 0n) { 
+  for (c of in_str) {
+    let n = BigInt((c.charCodeAt() & ~32) - 65) //lower case & normalize
+    if (!((n > 26n) || (n < 0n))) { //only process english alphabet
+      n = 1n << n //set bit n
+      while ((n & out) == n) n <<= 26n //if collision shift up 26 bits
+      out |= n //park that bit
+    }
+  }
+  return out //return the delicious hashtogram
+}
+
+subtract = function(hash1, hash2) {
+  while((hash1 & hash2) != 0n) {
+    hash2 <<= 26n
+  }
+  while(hash2 > 0n) {
+    hash2 >>= 26n
+    smoke = (hash2 & hash1)
+    hash1 &= ~smoke
+    hash2 &= ~smoke
+  }
+  return hash1
+}
+
+
+function findTwaversals(values, spaces) {
+    function traverse(values, remainingSpace, currentTraversal, allTraversals) {
+        if (!values.some((v) => (v & remainingSpace) == v)) { //are we out of options?
+            allTraversals.push(atomicweedrun(currentTraversal, values.length));
+            return;
+        }
+
+        for (let i = 0; i < values.length; i++) {
+            if ((values[i] & remainingSpace) == values[i]) {
+                currentTraversal.push(i);
+                traverse(values, subtract(remainingSpace, value), currentTraversal, allTraversals);
+                currentTraversal.pop();
+            }
+        }
+    }
+
+    const allTraversals = [];
+    traverse(values, spaces, [], allTraversals);
+    return allTraversals;
+}
+
+
+
+
+
+
+
+////////NOT THIS ONE THIS IS THE WORKING EXAMPLE
 function findTraversals(values, spaces) {
     function traverse(values, remainingSpace, currentTraversal, allTraversals) {
         if (remainingSpace === 0) {
