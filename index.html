@@ -58,6 +58,7 @@
             [type, data] = msg.data
             switch(type) {
                 case "log":
+			    console.log(data)
 					document.getElementById("log")
                     		.appendChild(document.createElement("div")
                         		.appendChild(document.createTextNode(data)))
