@@ -29,6 +29,7 @@ readTwaversal = function(twav, max_val) {
 
 function findTwaversals(values, spaces) {
     function traverse(values, remainingSpace, currentTraversal, allTraversals) {
+	log(arguments)
         if (!values.some((v) => (v & remainingSpace) == v)) { //are we out of options?
             allTraversals.push(atomicweedrun(currentTraversal, values.length));
             return;
