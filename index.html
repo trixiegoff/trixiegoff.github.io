@@ -58,14 +58,14 @@
             [type, data] = msg.data
             switch(type) {
                 case "log":
-			    console.log(data)
-					document.getElementById("log")
-                    		.appendChild(document.createElement("div")
-                        		.appendChild(document.createTextNode(data)))
-               		break
+	            document.getElementById("log")
+                    .appendChild(document.createElement("div")
+                    .appendChild(document.createTextNode(data)))
+		    console.log(data)			    
+               	    break
                 case "results":
-      				document.getElementById("results").innerHTML = `<div>${data.join("</div><div>")}</div>`
-                	break
+      		    document.getElementById("results").innerHTML = `<div>${data.join("</div><div>")}</div>`
+                    break
                 default:
                     console.log(`unknown msg type: ${type}`, msg)
                     break
