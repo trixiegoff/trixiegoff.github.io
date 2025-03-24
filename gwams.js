@@ -1,6 +1,54 @@
 const hashes = new Map()
 let jobs = new Map()
 
+atomicweedrun = function(in_vals, max_val, out = 0n) { //ONOES I GENERALIZED IT
+  let m = BigInt(max_val)
+  for (v of in_vals) {
+    let n = BigInt(v - 1)
+    n = 1n << n //set bit n
+    while ((n & out) == n) n <<= m //if collision shift up max_val bits
+    out |= n //park that bit
+  }
+  return out //return the delicious hashtogram
+}
+
+readTwaversal = function(twav, max_val) {
+  let out = []
+  do {
+    let pos = (twav & -twav) //get lowest set bit column
+    twav &= ~pos
+		let i = 0
+    while (pos > 0) {
+      pos >>= 1n
+      i++
+    }
+    out.push(hashes.get(atoms[i]))
+  } while(twav != 0)
+  return out
+}
+
+function findTwaversals(values, spaces) {
+    function traverse(values, remainingSpace, currentTraversal, allTraversals) {
+        if (!values.some((v) => (v & remainingSpace) == v)) { //are we out of options?
+            allTraversals.push(atomicweedrun(currentTraversal, values.length));
+            return;
+        }
+
+        for (let i = 0; i < values.length; i++) {
+            if ((values[i] & remainingSpace) == values[i]) {
+                currentTraversal.push(i);
+                traverse(values, subtract(remainingSpace, value), currentTraversal, allTraversals);
+                currentTraversal.pop();
+            }
+        }
+    }
+
+    const allTraversals = [];
+    traverse(values, spaces, [], allTraversals);
+    return allTraversals.map((t) => readTwaversal(t));
+}
+
+
 //my brain refuses to rename this as it returns a pile of hash
 weedrun = function(in_str, out = 0n) { 
   for (c of in_str) {
@@ -29,18 +77,19 @@ self.onmessage = function(msg) {
   switch (cmd) {
     case "init":
     	init(param)
-    	break
+      break
     case "gwams":
-    	let inhash = weedrun(param)
-    	let words = []
-    	hashes.forEach((w, h) => {
-        if ((h & inhash) == h) words.push(w)
+      let inhash = weedrun(param)
+      let atoms = []
+      hashes.forEach((w, h) => {
+        if ((h & inhash) == h) atoms.push(h)
         })
-	self.postMessage(["results", words.flat(Infinity)])
-    	break
+      let cules = findTwaversals(atoms, inhash)
+      self.postMessage(["results", cules])
+      break
     case "stats":
-			stats()
-    	break
+      stats()
+      break
     }
   }
 
@@ -115,7 +164,6 @@ mapdic = function(words) {
     }
 	}
 }
-
 
 subtract = function(hash1, hash2) {
   while((hash1 & hash2) != 0n) {
