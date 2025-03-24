@@ -37,7 +37,7 @@ function findTwaversals(values, spaces) {
         for (let i = 0; i < values.length; i++) {
             if ((values[i] & remainingSpace) == values[i]) {
                 currentTraversal.push(i);
-                traverse(values, subtract(remainingSpace, value), currentTraversal, allTraversals);
+                traverse(values, subtract(remainingSpace, values[i]), currentTraversal, allTraversals);
                 currentTraversal.pop();
             }
         }
