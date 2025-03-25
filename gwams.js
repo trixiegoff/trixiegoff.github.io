@@ -32,7 +32,9 @@ let findcules = function(inhash) {
   let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
 	if (atoms.length == 0) return []
   
+  let max_depth = 3
   let permute = function(atoms, leftoverhash, currentcule, cules) {
+    console.log("Atoms:", atoms, "Leftover Hash:", leftoverhash, "Current Cule:", currentcule)
     //are we out of hash?
     if (!atoms.some((h) => ((h & leftoverhash) == h))) {
       cules.add(currentcule)
