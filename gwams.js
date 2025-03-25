@@ -1,5 +1,4 @@
 const hashes = new Map()
-let jobs = new Map()
 
 atomicweedrun = function(in_vals, max_val, out = 0n) { //ONOES I GENERALIZED IT
   let m = BigInt(max_val)
