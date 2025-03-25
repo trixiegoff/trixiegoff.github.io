@@ -34,6 +34,7 @@ let findcules = function(inhash) {
   
   let permute = function(atoms, leftoverhash, currentcule, cules) {
     //are we out of hash?
+		if (atoms.length == 0) return
     if (!atoms.some((h) => ((h & leftoverhash) == h))) {
       cules.add(currentcule)
       return
@@ -41,7 +42,7 @@ let findcules = function(inhash) {
     
     atoms.forEach((h, k) => {
       if ((h & leftoverhash) == h) {
-        permute(atoms, subtract(leftoverhash, h), add(currentcule, k, atoms.length), cules)
+        permute(atoms, subtract(leftoverhash, h), add(currentcule, BigInt(k), atoms.length), cules)
       }
     })
   }
