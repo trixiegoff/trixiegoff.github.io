@@ -36,7 +36,7 @@ let readcule = function(cule, max_val) {
 
 
   let permute = function(atoms, leftoverhash, currentcule, cules) {
-    console.log("Atoms:", atoms, "Leftover Hash:", leftoverhash, "Current Cule:", currentcule)
+    //console.log("Atoms:", atoms, "Leftover Hash:", leftoverhash, "Current Cule:", currentcule)
     //are we out of hash?
     if ((!atoms.some((h) => ((h & leftoverhash) == h))) || (leftoverhash == 0n)) {
       cules.add(currentcule)
