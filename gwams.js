@@ -12,40 +12,43 @@ atomicweedrun = function(in_vals, max_val, out = 0n) { //ONOES I GENERALIZED IT
   return out //return the delicious hashtogram
 }
 
-readTwaversal = function(twav, max_val) {
+let readcule = function(cule, max_val) {
+  max_val = BigInt(max_val)
   let out = []
   do {
-    let pos = (twav & -twav) //get lowest set bit column
-    twav &= ~pos
-		let i = 0
-    while (pos > 0) {
-      pos >>= 1n
+    let atom = (cule & -cule) //get lowest set bit
+    cule &= ~atom
+    while(atom > (1n << max_val)) atom >> max_val //normalize
+		let i = 1
+    do {
+      atom >>= 1n
       i++
-    }
+    } while (atom > 0n)
     out.push(hashes.get(atoms[i]))
-  } while(twav != 0)
+  } while (cule > 0)
   return out
 }
 
-function findTwaversals(values, spaces) {
-    function traverse(values, remainingSpace, currentTraversal, allTraversals) {
-        if (!values.some((v) => (v & remainingSpace) == v)) { //are we out of options?
-            allTraversals.push(atomicweedrun(currentTraversal, values.length));
-            return;
+let findcules = function(inhash) {
+  let atoms = hashes.keys().filter((h) => ((h & inhash) == h))
+  
+  let permute = function(atoms, leftoverhash, currentcule, cules) {
+    //are we out of hash?
+    if (!atoms.some((h) => ((h & leftoverhash) == h))) {
+      cules.add(currentcule)
+      return
+      }
+      
+    atoms.forEach((h, k) => {
+      if ((h & leftoverhash) == h) {
+        permute(atoms, subtract(leftoverhash, h), add(currentcule, k, atoms.length), cules)
         }
+    })
 
-        for (let i = 0; i < values.length; i++) {
-            if ((values[i] & remainingSpace) == values[i]) {
-                currentTraversal.push(i);
-                traverse(values, subtract(remainingSpace, values[i]), currentTraversal, allTraversals);
-                currentTraversal.pop();
-            }
-        }
-    }
-
-    const allTraversals = [];
-    traverse(values, spaces, [], allTraversals);
-    return allTraversals.map((t) => readTwaversal(t));
+    const cules = new Set()
+    permute(atoms, inhash, 0n, cules)
+    
+    return [...cules].map((c) => readcule(c))
 }
 
 
@@ -79,13 +82,7 @@ self.onmessage = function(msg) {
     	init(param)
       break
     case "gwams":
-      let inhash = weedrun(param)
-      let atoms = []
-      hashes.forEach((w, h) => {
-        if ((h & inhash) == h) atoms.push(h)
-        })
-      let cules = findTwaversals(atoms, inhash)
-      self.postMessage(["results", cules])
+      self.postMessage(["results", findcules(hashes.keys(), weedrun(param))])
       break
     case "stats":
       stats()
@@ -165,12 +162,13 @@ mapdic = function(words) {
 	}
 }
 
-subtract = function(hash1, hash2) {
+subtract = function(hash1, hash2, diclen=26n) {
+  diclen = BigInt(diclen)
   while((hash1 & hash2) != 0n) {
-    hash2 <<= 26n
+    hash2 <<= diclen
   }
   while(hash2 > 0n) {
-    hash2 >>= 26n
+    hash2 >>= diclen
     smoke = (hash2 & hash1)
     hash1 &= ~smoke
     hash2 &= ~smoke
@@ -178,12 +176,13 @@ subtract = function(hash1, hash2) {
   return hash1
 }
 
-add = function(hash1, hash2) { //new hotness
+add = function(hash1, hash2, diclen=26n) { //new hotness
+  diclen = BigInt(diclen)
   while(hash2 > 0n) {
     smoke = (hash2 ^ hash1)
     hash1 |= hash2
     hash2 &= ~smoke
-    hash2 <<= 26n  
+    hash2 <<= diclen  
   }
   return hash1
 }
