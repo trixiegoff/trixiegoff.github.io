@@ -30,7 +30,7 @@ let readcule = function(cule, max_val) {
 }
 
 let findcules = function(inhash) {
-  let atoms = hashes.keys().filter((h) => ((h & inhash) == h))
+  let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
   
   let permute = function(atoms, leftoverhash, currentcule, cules) {
     //are we out of hash?
@@ -83,7 +83,7 @@ self.onmessage = function(msg) {
       init(param)
       break
     case "gwams":
-      self.postMessage(["results", findcules(hashes.keys(), weedrun(param))])
+      self.postMessage(["results", findcules(weedrun(param))])
       break
     case "stats":
       stats()
