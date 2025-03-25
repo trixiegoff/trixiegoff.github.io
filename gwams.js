@@ -53,7 +53,7 @@ let readcule = function(cule, max_val) {
   const cules = new Set()
   permute(atoms, inhash, 0n, cules)
   
-  return [...cules].map((c) => readcule(c, atoms.length))
+  return [...cules]//.map((c) => //readcule(c, atoms.length)) //this is broken dunno why yet
 }
 
 
