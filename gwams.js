@@ -51,7 +51,7 @@ let findcules = function(inhash) {
   const cules = new Set()
   permute(atoms, inhash, 0n, cules)
   
-  return [...cules].map((c) => readcule(c))
+  return [...cules].map((c) => readcule(c, atoms.length))
 }
 
 
