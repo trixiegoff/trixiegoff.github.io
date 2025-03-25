@@ -11,6 +11,12 @@ atomicweedrun = function(in_vals, max_val, out = 0n) { //ONOES I GENERALIZED IT
   return out //return the delicious hashtogram
 }
 
+
+
+let findcules = function(inhash) {
+  let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
+	if (atoms.length == 0) return []
+  
 let readcule = function(cule, max_val) {
   max_val = BigInt(max_val)
   let out = []
@@ -28,11 +34,7 @@ let readcule = function(cule, max_val) {
   return out
 }
 
-let findcules = function(inhash) {
-  let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
-	if (atoms.length == 0) return []
-  
-  let max_depth = 3
+
   let permute = function(atoms, leftoverhash, currentcule, cules) {
     console.log("Atoms:", atoms, "Leftover Hash:", leftoverhash, "Current Cule:", currentcule)
     //are we out of hash?
