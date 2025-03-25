@@ -31,10 +31,10 @@ let readcule = function(cule, max_val) {
 
 let findcules = function(inhash) {
   let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
+	if (atoms.length == 0) return []
   
   let permute = function(atoms, leftoverhash, currentcule, cules) {
     //are we out of hash?
-		if (atoms.length == 0) return
     if (!atoms.some((h) => ((h & leftoverhash) == h))) {
       cules.add(currentcule)
       return
@@ -46,7 +46,7 @@ let findcules = function(inhash) {
       }
     })
   }
-
+  
   const cules = new Set()
   permute(atoms, inhash, 0n, cules)
   
