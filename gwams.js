@@ -163,6 +163,7 @@ charcount = function (hash) {
         hashes.set(hash, [word])
       }
     }
+    hashes.delete(0n)
   }
 
 
