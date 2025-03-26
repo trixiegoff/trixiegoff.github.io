@@ -45,7 +45,7 @@ let readcule = function(cule, max_val) {
     
     atoms.forEach((h, k) => {
       if ((h & leftoverhash) == h) {
-        permute(atoms, subtract(leftoverhash, h), add(currentcule, BigInt(k), atoms.length), cules)
+        permute(atoms, subtract(leftoverhash, h), add(currentcule, BigInt(k+1), atoms.length), cules)
       }
     })
   }
