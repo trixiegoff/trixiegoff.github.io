@@ -64,7 +64,7 @@
 		    console.log(data)			    
                	    break
                 case "results":
-      		    document.getElementById("results").innerHTML = `<div>${data.join("</div><div>")}</div>`
+      		      document.getElementById("results").innerHTML = `<div>${data.map((d) => d.map((a) => a.join("/")).join("</div><div>")}</div>`
                     break
                 default:
                     console.log(`unknown msg type: ${type}`, msg)
