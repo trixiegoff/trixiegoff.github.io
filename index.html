@@ -81,7 +81,7 @@ let readcule = function(cule, max_val) {
 		    console.log(data)			    
                	    break
                 case "results": //this line is unholy and i hate it
-                  entries = data[1].map((c) => readcule(c)).map((c) => c.map((a) => data[0][a]))
+                  entries = data[1].map((c) => readcule(c, data[0].length)).map((c) => c.map((a) => data[0][a]))
                   document.getElementById("results").innerHTML = "<div>" + entries.map((entry) => entry.map((words) => words.join(" | ")).join(" + ")).join("</div><div")
                   break
                 default:
