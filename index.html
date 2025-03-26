@@ -52,6 +52,23 @@
 </head>
 <body>
     <script>
+let readcule = function(cule, max_val) {
+  max_val = BigInt(max_val)
+  let out = []
+  do {
+    let atom = (cule & -cule) //get lowest set bit
+    cule &= ~atom
+    while(atom > (1n << max_val)) atom >> max_val //normalize
+      let i = 1
+    do {
+      atom >>= 1n
+      i++
+    } while (atom > 0n)
+    out.push(i)
+  } while (cule > 0n)
+  return out
+}
+
         const gwams = new Worker("gwams.js")
         
         gwams.addEventListener("message", (msg) => {
@@ -63,9 +80,10 @@
                     .appendChild(document.createTextNode(data)))
 		    console.log(data)			    
                	    break
-                case "results":
-      		      document.getElementById("results").innerHTML = `<div>${data.map((d) => d.map((a) => a.join("/")).join("</div><div>")}</div>`
-                    break
+                case "results": //this line is unholy and i hate it
+                  entries = data[1].map((c) => readcule(c)).map((c) => c.map((a) => data[0][a]))
+                  document.getElementById("results").innerHTML = "<div>" + entries.map((entry) => entry.map((words) => words.join(" | ")).join(" + "))).join("</div><div")
+                  break
                 default:
                     console.log(`unknown msg type: ${type}`, msg)
                     break
