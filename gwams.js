@@ -30,7 +30,7 @@ let readcule = function(cule, max_val) {
       i++
     } while (atom > 0n)
     out.push(hashes.get(atoms[i]))
-  } while (cule > 0)
+  } while (cule > 0n)
   return out
 }
 
@@ -53,7 +53,7 @@ let readcule = function(cule, max_val) {
   const cules = new Set()
   permute(atoms, inhash, 0n, cules)
   
-  return [...cules]//.map((c) => //readcule(c, atoms.length)) //this is broken dunno why yet
+  return [atoms.map((a) => hashes.get(a)), [...cules]]
 }
 
 
