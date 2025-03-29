@@ -34,7 +34,30 @@ let readcule = function(cule, max_val) {
   return out
 }
 
+  let permute = function(atoms, leftoverhash, currentcule, cules) {
+    const stack = []
+    stack.push({ leftoverhash, currentcule })
 
+    while (stack.length > 0) {
+      const { leftoverhash, currentcule } = stack.pop()
+
+      if ((!atoms.some((h) => ((h & leftoverhash) == h))) || (leftoverhash == 0n)) {
+        cules.add(currentcule)
+        continue
+      }
+
+      atoms.forEach((h, k) => {
+        if ((h & leftoverhash) == h) {
+          stack.push({
+            leftoverhash: subtract(leftoverhash, h),
+            currentcule: add(currentcule, BigInt(k+1), atoms.length)
+          })
+        }
+      })
+    }
+  }
+
+/*
   let permute = function(atoms, leftoverhash, currentcule, cules) {
     //console.log("Atoms:", atoms, "Leftover Hash:", leftoverhash, "Current Cule:", currentcule)
     //are we out of hash?
@@ -49,7 +72,7 @@ let readcule = function(cule, max_val) {
       }
     })
   }
-  
+  */
   const cules = new Set()
   permute(atoms, inhash, 0n, cules)
   
