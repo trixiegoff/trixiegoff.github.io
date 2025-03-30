@@ -7,13 +7,52 @@ atomicweedrun = function(in_vals, max_val, out = 0n) { //ONOES I GENERALIZED IT
     n = 1n << n //set bit n
     while ((n & out) == n) n <<= m //if collision shift up max_val bits
     out |= n //park that bit
-}
+  }
   return out //return the delicious hashtogram
 }
 
 
+self.onmessage = function(event) {
+  const { inhash, interval } = event.data;
+  findcules(inhash, interval);
+};
 
-let findcules = function(inhash) {
+function findcules(inhash, interval) {
+	let lastUpdate = Date.now()
+  let firstUpdate = lastUpdate
+  let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
+  self.postMessage({ type: 'atoms', data: atoms.map((h) => hashes.get(h)) }).
+
+  const stack = [{ leftoverhash: inhash, currentcule: 0n }]
+
+  while (stack.length > 0) {
+    const { leftoverhash, currentcule } = stack.pop()
+
+    if ((!atoms.some((h) => ((h & leftoverhash) == h))) || (leftoverhash === 0n)) {
+      self.postMessage({ type: 'cule', data: [currentcule, leftoverhash] })
+      continue
+    }
+
+    atoms.forEach((h, k) => {
+      if ((h & leftoverhash) == h) {
+        stack.push({
+          leftoverhash: subtract(leftoverhash, h),
+          currentcule: add(currentcule, BigInt(k+1), atoms.length)
+        })
+      }
+    })
+    
+    if (Date.now() - lastUpdate >= 333) {
+      self.postMessage({ type: 'progress', data: stack.length })
+      lastUpdate = Date.now()
+    }
+  }
+  
+  self.postMessage({ type: 'progress', data: 0 })
+  self.postMessage({ type: 'totaltime', data: lastUpdate-firstUpdate })
+}
+
+/* let findcules = function(inhash) {
   let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
 	if (atoms.length == 0) return []
   
@@ -57,7 +96,7 @@ let readcule = function(cule, max_val) {
     }
   }
 
-/*
+
   let permute = function(atoms, leftoverhash, currentcule, cules) {
     //console.log("Atoms:", atoms, "Leftover Hash:", leftoverhash, "Current Cule:", currentcule)
     //are we out of hash?
@@ -72,13 +111,13 @@ let readcule = function(cule, max_val) {
       }
     })
   }
-  */
+  
   const cules = new Set()
   permute(atoms, inhash, 0n, cules)
   
   return [atoms.map((a) => hashes.get(a)), [...cules]]
 }
-
+*/
 
 //my brain refuses to rename this as it returns a pile of hash
 weedrun = function(in_str, out = 0n) { 
