@@ -5,53 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>'GWAMS!</title>
     <style>
-        body {
-            background-color: black;
-            color: lime;
-            margin: 0;
+    body {
+        background-color: black;
+        color: lime;
+        margin: 0;
         }
         
-        #log {
-            position: fixed;
-            z-index: -69;
-            font-family: monospace, monospace, monospace;
-            opacity: 0.3;
-            display: block;
-        }
-            
-        #results {
-            display: flex;
-            flex-flow: column wrap;
-            flex-wrap: column wrap row;
-            flex-direction: column;
-            height: 100vh;
-            width: 100vw;
-            color: magenta;
-            font-family: monospace, monospace, monospace;
+    #log {
+        position: fixed;
+        z-index: -69;
+        font-family: monospace, monospace, monospace;
+        opacity: 0.3;
+        display: block;
         }
         
-        input[type="text"] {
-            position: sticky;
-            top: 0px;
-            background-color: rgba(0, 0, 0, 0.69);
-            border: 0px solid lime;
-            padding: 0px;
-            color: lime;
-            text-align: center;
-            width: 100%;
-            font-size: 27pt;
-            display: block;
+    #atoms {
+        display: flex;
+        flex-flow: column wrap;
+        flex-wrap: column wrap row;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+        color: magenta;
+        font-family: monospace, monospace, monospace;
+        z-level: -1;
         }
         
-        input:required:valid {
+    atom {
+        display: inline-block;
         }
         
-        #status {
-            position: fixed;
-            bottom: 0px;
-            right: 0px;
-            z-level: 9999;
+    cule {
+        z-level: 1;
+        display: inline-block;
         }
+        
+    input[type="text"] {
+        position: sticky;
+        top: 0px;
+        background-color: rgba(0, 0, 0, 0.69);
+        border: 0px solid lime;
+        padding: 0px;
+        color: lime;
+        text-align: center;
+        width: 100%;
+        font-size: 27pt;
+        display: block;
+        }
+        
+    input:required:valid {
+        }
+        
+    #status {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        padding: 5pt;
+        z-level: 9999;
+        }
+    
+    #spinner {
+        font-size: 666%;
+        }
+    
+    body {
+        padding: 50px; 
+        }
+    
+    .spin {
+        animation-name: spin;
+        animation-duration: 5000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-direction: normal;
+        }
+    
+    .spinfast {
+        animation-duration: 2000ms;
+        }
+    
+    .spinbackwards {
+        animation-direction: reverse;
+        }
+    
+    @keyframes spin {
+        from {
+            transform:rotate(0deg);
+        } to {
+            transform:rotate(360deg);
+        }
+    }
     </style>
 </head>
 <body>
@@ -79,16 +122,23 @@ let readcule = function(cule, max_val) {
             [type, data] = msg.data
             switch(type) {
                 case "log":
-	            document.getElementById("log")
+                    document.getElementById("log")
                     .appendChild(document.createElement("div")
                     .appendChild(document.createTextNode(data)))
-		    console.log(data)			    
-               	    break
-                case "results":
-                console.log("data", data)
-                
-                  //document.getElementById("results").innerHTML = "<div>" + entries.map((entry) => entry.map((words) => words.join(" | ")).join(" + ")).join("</div><div")
-                  break
+                    break
+                case "atoms":
+                    console.log("atoms", data)
+                    document.getElementById("atoms").innerHTML = "<atom>" + entries.map((entry) => entry.map((words) => words.join(" | ")).join(" + ")).join("</atom><atom>")
+                    break
+                case "cule":
+                    console.log("cule", data)
+                    break
+                case "progress":
+                    console.log("progress", data)
+                    break
+                case "time":
+                    console.log("time", data)
+                    break
                 default:
                     console.log(`unknown msg type: ${type}`, msg)
                     break
@@ -96,18 +146,18 @@ let readcule = function(cule, max_val) {
         })
         gwams.postMessage(["init", "words"])
         
-	document.getElementById("words").addEventListener("keypress", function(event) {
+        document.getElementById("words").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault()
-                gwams.postMessage(["permute", this.value])
+                gwams.postMessage(["cules", this.value])
             }
         })
     </script>
 </head>
 <body>
 <div id="log"></div><br/>
-<input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required oninput="gwams.postMessage(['gwams', this.value])"><br/>
-<div id="results"></div>
-<div id="status"><div id="spinner">🫠</div></div>
+<input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required oninput="gwams.postMessage(['atoms', this.value])"><br/>
+<div id="atoms"></div>
+<div id="status"><div id="spinner" class="spin">🫠</div></div>
 </body>
 </html>
