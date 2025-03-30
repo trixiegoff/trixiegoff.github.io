@@ -75,7 +75,7 @@ self.onmessage = function(msg) {
       init(param)
       break
     case "atoms":
-      let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
+      atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
       self.postMessage(["atoms", atoms.map((h) => hashes.get(h))])
       break
     case "cules":
