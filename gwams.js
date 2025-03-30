@@ -1,4 +1,5 @@
 const hashes = new Map()
+let atoms = []
 
 atomicweedrun = function(in_vals, max_val, out = 0n) { //ONOES I GENERALIZED IT
   let m = BigInt(max_val)
@@ -11,17 +12,9 @@ atomicweedrun = function(in_vals, max_val, out = 0n) { //ONOES I GENERALIZED IT
   return out //return the delicious hashtogram
 }
 
-
-self.onmessage = function(event) {
-  const { inhash, interval } = event.data;
-  findcules(inhash, interval);
-};
-
 function findcules(inhash, interval) {
-	let lastUpdate = Date.now()
+  let lastUpdate = Date.now()
   let firstUpdate = lastUpdate
-  let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
-  self.postMessage({ type: 'atoms', data: atoms.map((h) => hashes.get(h)) }).
 
   const stack = [{ leftoverhash: inhash, currentcule: 0n }]
 
@@ -52,73 +45,6 @@ function findcules(inhash, interval) {
   self.postMessage({ type: 'totaltime', data: lastUpdate-firstUpdate })
 }
 
-/* let findcules = function(inhash) {
-  let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
-	if (atoms.length == 0) return []
-  
-let readcule = function(cule, max_val) {
-  max_val = BigInt(max_val)
-  let out = []
-  do {
-    let atom = (cule & -cule) //get lowest set bit
-    cule &= ~atom
-    while(atom > (1n << max_val)) atom >> max_val //normalize
-      let i = 1
-    do {
-      atom >>= 1n
-      i++
-    } while (atom > 0n)
-    out.push(hashes.get(atoms[i]))
-  } while (cule > 0n)
-  return out
-}
-
-  let permute = function(atoms, leftoverhash, currentcule, cules) {
-    const stack = []
-    stack.push({ leftoverhash, currentcule })
-
-    while (stack.length > 0) {
-      const { leftoverhash, currentcule } = stack.pop()
-
-      if ((!atoms.some((h) => ((h & leftoverhash) == h))) || (leftoverhash == 0n)) {
-        cules.add(currentcule)
-        continue
-      }
-
-      atoms.forEach((h, k) => {
-        if ((h & leftoverhash) == h) {
-          stack.push({
-            leftoverhash: subtract(leftoverhash, h),
-            currentcule: add(currentcule, BigInt(k+1), atoms.length)
-          })
-        }
-      })
-    }
-  }
-
-
-  let permute = function(atoms, leftoverhash, currentcule, cules) {
-    //console.log("Atoms:", atoms, "Leftover Hash:", leftoverhash, "Current Cule:", currentcule)
-    //are we out of hash?
-    if ((!atoms.some((h) => ((h & leftoverhash) == h))) || (leftoverhash == 0n)) {
-      cules.add(currentcule)
-      return
-    }
-    
-    atoms.forEach((h, k) => {
-      if ((h & leftoverhash) == h) {
-        permute(atoms, subtract(leftoverhash, h), add(currentcule, BigInt(k+1), atoms.length), cules)
-      }
-    })
-  }
-  
-  const cules = new Set()
-  permute(atoms, inhash, 0n, cules)
-  
-  return [atoms.map((a) => hashes.get(a)), [...cules]]
-}
-*/
-
 //my brain refuses to rename this as it returns a pile of hash
 weedrun = function(in_str, out = 0n) { 
   for (c of in_str) {
@@ -148,8 +74,12 @@ self.onmessage = function(msg) {
     case "init":
       init(param)
       break
-    case "gwams":
-      self.postMessage(["results", findcules(weedrun(param))])
+    case "atoms":
+      let atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
+      self.postMessage(["atoms", atoms.map((h) => hashes.get(h))])
+      break
+    case "cules":
+      //self.postMessage(["atoms", findcules(weedrun(param))])
       break
     case "stats":
       stats()
@@ -181,7 +111,6 @@ charcount = function (hash) {
     log(`Biggest hash: 0x${biggesthash.toString(16)}=${hashes.get(biggesthash)[0]}`)
     log(`Biggest bucket: ${biggestbucket.join(", ")}`)
   }
-
 
   init = function(dic="words") {
     log(`Downloading dictionary...`)
