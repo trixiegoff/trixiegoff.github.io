@@ -149,6 +149,7 @@ charcount = function (hash) {
 
   mapdic = function(words) {
     for (word of words) {
+      word = word.trim()
       let hash = weedrun(word)
       if (hashes.has(hash)) {
         hashes.set(hash, [...hashes.get(hash), word])
