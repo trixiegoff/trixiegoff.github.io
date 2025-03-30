@@ -22,7 +22,7 @@ function findcules(inhash, interval) {
     const { leftoverhash, currentcule } = stack.pop()
 
     if ((!atoms.some((h) => ((h & leftoverhash) == h))) || (leftoverhash === 0n)) {
-      self.postMessage({ type: 'cule', data: [currentcule, leftoverhash] })
+      self.postMessage(['cule', [currentcule, leftoverhash]])
       continue
     }
 
@@ -36,13 +36,13 @@ function findcules(inhash, interval) {
     })
     
     if (Date.now() - lastUpdate >= 333) {
-      self.postMessage({ type: 'progress', data: stack.length })
+      self.postMessage(['progress', stack.length])
       lastUpdate = Date.now()
     }
   }
   
-  self.postMessage({ type: 'progress', data: 0 })
-  self.postMessage({ type: 'totaltime', data: lastUpdate-firstUpdate })
+  self.postMessage(['progress', 0])
+  self.postMessage(['totaltime', lastUpdate-firstUpdate])
 }
 
 //my brain refuses to rename this as it returns a pile of hash
