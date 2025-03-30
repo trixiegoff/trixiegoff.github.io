@@ -75,6 +75,7 @@ self.onmessage = function(msg) {
       init(param)
       break
     case "atoms":
+      let inhash = weedrun(param)
       atoms = [...hashes.keys()].filter((h) => ((h & inhash) == h))
       self.postMessage(["atoms", atoms.map((h) => hashes.get(h))])
       break
