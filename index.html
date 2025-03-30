@@ -128,7 +128,6 @@ let readcule = function(cule, max_val) {
                     .appendChild(document.createTextNode(data)))
                     break
                 case "atoms":
-                    console.log("atoms", data)
                     document.getElementById("atoms").innerHTML = "<atom>" + entries.map((entry) => entry.map((words) => words.join(" | ")).join(" + ")).join("</atom><atom>")
                     break
                 case "cule":
