@@ -129,7 +129,7 @@ let readcule = function(cule, max_val) {
                     break
                 case "atoms":
                     console.log(data)
-                    document.getElementById("atoms").innerHTML = "<atom>" + data.map((entry) => entry.join(" | ")).join(" + ").join("</atom><atom>") + "</atom>"
+                    document.getElementById("atoms").innerHTML = data.map((entry) => `[${entry.join(" | ")}]`).join(", ")
                     break
                 case "cule":
                     console.log("cule", data)
