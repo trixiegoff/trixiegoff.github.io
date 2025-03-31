@@ -129,7 +129,6 @@ let readcule = function(cule, max_val) {
                     break
                 case "atoms":
                     console.log(data)
-                    "<atom>" + data.map((entry) => entry.join(" | ")).join(" + ")).join("</atom><atom>")
                     document.getElementById("atoms").innerHTML = "<atom>" + data.map((entry) => entry.join(" | ")).join(" + ")).join("</atom><atom>") + "</atom>
                     break
                 case "cule":
@@ -156,7 +155,7 @@ let readcule = function(cule, max_val) {
         })
     </script>
 </head>
-<body>
+<body onload="">
 <div id="log"></div><br/>
 <input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required oninput="gwams.postMessage(['atoms', this.value])"><br/>
 <div id="atoms"></div>
