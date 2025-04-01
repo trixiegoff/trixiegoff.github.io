@@ -72,21 +72,21 @@
     body {
         padding: 50px; 
         }
-    
-    .spin {
-        animation-name: spin;
-        animation-duration: 5000ms;
+        
+    .squiff {
+        animation-name: squiff;
+        animation-duration: 1000ms;
         animation-iteration-count: infinite;
         animation-timing-function: linear;
-        animation-direction: normal;
+        animation-direction: alternate;
         }
-    
-    .spinfast {
-        animation-duration: 2000ms;
-        }
-    
-    .spinbackwards {
-        animation-direction: reverse;
+        
+    .spin {
+        animation-name: spin;
+        animation-duration: 1000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-direction: alternate;
         }
     
     @keyframes spin {
@@ -94,6 +94,14 @@
             transform:rotate(0deg);
         } to {
             transform:rotate(360deg);
+        }
+    }
+    
+    @keyframes squiff {
+        from {
+            transform: skew(30deg, -30deg);
+        } to {
+            transform: skew(-30deg, 30deg);
         }
     }
     </style>
@@ -159,7 +167,9 @@ gwams.addEventListener("message", (msg) => {
             console.log(`unknown msg type: ${type}`, msg)
             break
             }
-        document.getElementById("spinner").innerHTML = busy ? "😖" : "😴"
+        spinsies = document.getElementById("spinner")
+        spinsies.innerHTML = busy ? "😖" : "😴"
+        spinsies.className = busy ? "spin" : "squiff"
         })
         
 gwams.postMessage(["init", "words"])
