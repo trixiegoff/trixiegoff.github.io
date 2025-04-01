@@ -117,47 +117,61 @@ let readcule = function(cule, max_val) {
   return out
 }
 
-        const gwams = new Worker("gwams.js")
-        
-        gwams.addEventListener("message", (msg) => {
-            [type, data] = msg.data
-            switch(type) {
-                case "log":
-                    document.getElementById("log")
-                    .appendChild(document.createElement("div")
-                    .appendChild(document.createTextNode(data)))
-                    break
-                case "atoms":
-                    console.log(data)
-                    document.getElementById("atoms").innerHTML = data.map((entry) => `[${entry.join(" | ")}]`).join(", ")
-                    break
-                case "cule":
-                    console.log("cule", data)
-                    break
-                case "progress":
-                    console.log("progress", data)
-                    break
-                case "time":
-                    console.log("time", data)
-                    break
-                default:
-                    console.log(`unknown msg type: ${type}`, msg)
-                    break
+let busy = false
+let qid = -1
+
+const gwams = new Worker("gwams.js")
+
+gwams.addEventListener("message", (msg) => {
+    [type, data] = msg.data
+    switch(type) {
+        case "log":
+            document.getElementById("log")
+            .appendChild(document.createElement("div")
+            .appendChild(document.createTextNode(data)))
+            break
+        case "atoms":
+            busy = false
+            //console.log(data)
+            document.getElementById("atoms").innerHTML = data.map((entry) => `[${entry.join(" | ")}]`).join(", ")
+            break
+        case "cule":
+            console.log("cule", data)
+            break
+        case "progress":
+            console.log("progress", data)
+            break
+        case "time":
+            console.log("time", data)
+            break
+        default:
+            console.log(`unknown msg type: ${type}`, msg)
+            break
             }
         })
-        gwams.postMessage(["init", "words"])
-        
-        document.getElementById("words").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault()
-                gwams.postMessage(["cules", this.value])
+gwams.postMessage(["init", "words"])
+
+document.getElementById("words").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault()
+        //gwams.postMessage(["cules", this.value])
+    }
+})
+
+qordo = function() {
+    qid = setInterval(function() {
+        if (!busy) {
+            clearInterval(qid)
+            gwams.postMessage(['atoms', document.getElementById("words").value])
             }
-        })
-    </script>
+        }, 200)
+}
+
+</script>
 </head>
 <body onload="">
 <div id="log"></div><br/>
-<input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required oninput="gwams.postMessage(['atoms', this.value])"><br/>
+<input type="text" id="words" placeholder="PUT WORDS IN ME 🥺" autofocus required oninput="qordo()"><br/>
 <div id="atoms"></div>
 <div id="status"><div id="spinner" class="spin">🫠</div></div>
 </body>
