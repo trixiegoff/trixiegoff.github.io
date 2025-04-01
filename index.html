@@ -122,9 +122,11 @@ const gwams = new Worker("gwams.js")
 let busy = false
 let qid = -1
 let qordo = function() {
+    clearInterval(qid)
     qid = setInterval(function() {
         if (!busy) {
             clearInterval(qid)
+            busy = true
             gwams.postMessage(['atoms', document.getElementById("words").value])
             }
         }, 200)
