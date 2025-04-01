@@ -117,10 +117,18 @@ let readcule = function(cule, max_val) {
   return out
 }
 
-let busy = false
-let qid = -1
 
 const gwams = new Worker("gwams.js")
+let busy = false
+let qid = -1
+let qordo = function() {
+    qid = setInterval(function() {
+        if (!busy) {
+            clearInterval(qid)
+            gwams.postMessage(['atoms', document.getElementById("words").value])
+            }
+        }, 200)
+}
 
 gwams.addEventListener("message", (msg) => {
     [type, data] = msg.data
@@ -158,14 +166,6 @@ document.getElementById("words").addEventListener("keypress", function(event) {
     }
 })
 
-let qordo = function() {
-    qid = setInterval(function() {
-        if (!busy) {
-            clearInterval(qid)
-            gwams.postMessage(['atoms', document.getElementById("words").value])
-            }
-        }, 200)
-}
 
 </script>
 </head>
