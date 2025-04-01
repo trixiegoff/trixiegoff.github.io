@@ -127,9 +127,19 @@ let qordo = function() {
         if (!busy) {
             clearInterval(qid)
             busy = true
+            updatespinner()
             gwams.postMessage(['atoms', document.getElementById("words").value])
             }
         }, 50)
+}
+
+let updatespinner() {
+    let spinner = document.getElementById("spinner")
+    if (busy) {
+        spinner.innerHTML = "😖"
+    } else {
+        spinner.innerHTML = "😴"
+    }
 }
 
 gwams.addEventListener("message", (msg) => {
@@ -158,7 +168,9 @@ gwams.addEventListener("message", (msg) => {
             console.log(`unknown msg type: ${type}`, msg)
             break
             }
+        updatespinner()
         })
+        
 gwams.postMessage(["init", "words"])
 
 document.getElementById("words").addEventListener("keypress", function(event) {
