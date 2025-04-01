@@ -129,7 +129,7 @@ let qordo = function() {
             busy = true
             gwams.postMessage(['atoms', document.getElementById("words").value])
             }
-        }, 200)
+        }, 50)
 }
 
 gwams.addEventListener("message", (msg) => {
