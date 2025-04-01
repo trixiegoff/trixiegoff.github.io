@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>'GWAMS!4</title>
+    <title>'GWAMS!5</title>
     <style>
     body {
         background-color: black;
@@ -117,15 +117,6 @@ let readcule = function(cule, max_val) {
   return out
 }
 
-let updatespinner() {
-    let spinner = document.getElementById("spinner")
-    if (busy) {
-        spinner.innerHTML = "😖"
-    } else {
-        spinner.innerHTML = "😴"
-    }
-}
-
 
 const gwams = new Worker("gwams.js")
 let busy = false
@@ -168,7 +159,7 @@ gwams.addEventListener("message", (msg) => {
             console.log(`unknown msg type: ${type}`, msg)
             break
             }
-        updatespinner()
+        document.getElementById("spinner").innerHTML = busy ? "😖" : "😴"
         })
         
 gwams.postMessage(["init", "words"])
