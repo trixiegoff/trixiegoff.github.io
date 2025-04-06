@@ -23,6 +23,7 @@
 </style>
 
 <script>
+ let profanity = ["fuck", "shit", "piss", "cunt", "motherfucker", "twat", "bollocks", "bugger", "arse", "ass"]
  e = document.createElement("span")
  e.innerText = "fuck"
  e.style.position = "absolute"
@@ -30,6 +31,7 @@
  e.style.fontFamily = "Comic Sans MS"
 
  jiggle = function() {
+   e.innerText = profanity[Math.floor(Math.random() * profanity.length)]
    e.style.top = `${Math.random() * 97}vh`
    e.style.left = `${Math.random() * 96}vw`
    e.style.color = `hsl(${Math.random()*350} 100% 50%)`
