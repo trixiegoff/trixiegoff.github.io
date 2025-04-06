@@ -1,0 +1,51 @@
+<html>
+<head>
+<style>
+    span {
+         mix-blend-mode: color-dodge;
+         animation-name: spin;
+         animation-duration: 1000ms;
+         animation-iteration-count: infinite;
+         animation-timing-function: linear;
+         animation-direction: alternate;
+         }
+     
+     @keyframes spin {
+         from {
+             transform:rotate(0deg) scale(6);
+         } to {            transform:rotate(420deg) scale(1);
+         }
+     }
+</style>
+
+<script>
+ e = document.createElement("span")
+ e.innerText = "fuck"
+ e.style.position = "absolute"
+ e.style.opacity = "0.8"
+ e.style.fontFamily = "Comic Sans MS"
+
+ jiggle = function() {
+   e.style.top = `${Math.random() * 97}vh`
+   e.style.left = `${Math.random() * 96}vw`
+   e.style.color = `hsl(${Math.random()*350} 100% 50%)`
+   e.style.fontSize = `${(Math.random() * 48) + 12}px`
+   e.style.transform = `rotate(${Math.random() * 360}deg)`
+   e.style.animationDuration = `${(Math.random() * 1000)+1000}ms`  
+  } 
+
+um = function() {
+ for (i=0; i<200; i++) {
+   jiggle()
+   document.body.appendChild(e.cloneNode(true))
+ }
+ setInterval(()=>{
+    document.body.firstElementChild.remove()
+    jiggle()
+    document.body.appendChild(e.cloneNode(true))
+    }, 200)
+}
+</script>
+</head>
+<body onload="um()"></body>
+</html>
