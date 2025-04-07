@@ -24,8 +24,8 @@
          }
      
      @keyframes spin {
-         from { transform:rotate(420deg) scale(0.2); }
-         to { transform:rotate(0deg) scale(6); }
+         from { transform:rotate(666deg) scale(0.01); }
+         to { transform:rotate(0deg) scale(1); }
      }
 </style>
 
@@ -44,9 +44,9 @@
    x.style.left = `${Math.random() * 96}vw`
    //x.style.color = `hsl(${Math.random()*360} 100% 50%)`
    x.filter = `brightness(1) saturate(3) hue-rotate(${Math.random()*360}deg)`
-   x.style.fontSize = `${(Math.random() * 3) + 1}vh`
+   x.style.fontSize = `${(Math.random() * 9) + 3}vh`
    x.style.transform = `rotate(${Math.random() * 360}deg)`
-   x.style.animationDuration = `${(Math.random() * 1500)+1000}ms` 
+   x.style.animationDuration = `${(Math.random() * 2000)+1000}ms` 
   } 
 
 um = function() {
@@ -57,7 +57,7 @@ um = function() {
  setInterval(()=>{
     jiggle(document.body.firstElementChild)
     document.body.appendChild(document.body.firstElementChild)
-    }, 250)
+    }, 333)
 }
 </script>
 </head>
