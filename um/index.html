@@ -32,27 +32,26 @@
  e.style.opacity = "0.8"
  e.style.fontFamily = "Comic Sans MS"
 
- jiggle = function() {
-   e.animationDirection = ["alternate", "alternate-reverse"][Math.floor(Math.random())]
-   e.innerText = profanity[Math.floor(Math.random() * profanity.length)]
-   e.style.top = `${Math.random() * 97}vh`
-   e.style.left = `${Math.random() * 96}vw`
-   e.style.color = `hsl(${Math.random()*350} 100% 50%)`
-   e.style.fontSize = `${(Math.random() * 2) + 2}vh`
-   e.style.transform = `rotate(${Math.random() * 360}deg)`
-   e.style.animationDuration = `${(Math.random() * 1000)+1000}ms`  
+ jiggle = function(x) {
+   x.animationDirection = ["alternate", "alternate-reverse"][Math.floor(Math.random())]
+   x.innerText = profanity[Math.floor(Math.random() * profanity.length)]
+   x.style.top = `${Math.random() * 97}vh`
+   x.style.left = `${Math.random() * 96}vw`
+   x.style.color = `hsl(${Math.random()*350} 100% 50%)`
+   x.style.fontSize = `${(Math.random() * 2) + 2}vh`
+   x.style.transform = `rotate(${Math.random() * 360}deg)`
+   x.style.animationDuration = `${(Math.random() * 1000)+1000}ms`  
   } 
 
 um = function() {
  for (i=0; i<200; i++) {
-   jiggle()
+   jiggle(e)
    document.body.appendChild(e.cloneNode(true))
  }
  setInterval(()=>{
-    document.body.firstElementChild.remove()
-    jiggle()
-    document.body.appendChild(e.cloneNode(true))
-    }, 200)
+    jiggle(document.body.firstElementChild)
+    document.body.appendChild(document.body.firstElementChild)
+    }, 250)
 }
 </script>
 </head>
