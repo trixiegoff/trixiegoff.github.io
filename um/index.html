@@ -5,8 +5,15 @@
         background-color: #111;
         overflow: hidden;
     }
+
+    @font-face {
+        font-family: "Comic Sans MS";
+        src: url("comic-sans.woff") format("woff");
+        }
     
     span {
+         font-family: "Comic Sans MS", "Comic Sans MS", cursive;
+         position: absolute;
          mix-blend-mode: color-dodge;
          animation-name: spin;
          animation-duration: 1000ms;
@@ -25,11 +32,11 @@
 </style>
 
 <script>
- let profanity = ["fuck", "shit", "piss", "cunt", "motherfucker", "twat", "bollocks", "bugger", "arse", "ass"]
+ //let profanity = ["fuck", "shit", "piss", "cunt", "motherfucker", "twat", "bollocks", "bugger", "arse", "ass"]
+ let profanity = ["🥵", "💩", "😭", "🤬", "😏", "🤪", "🥹", "😱", "🤢", "🥴"]
  e = document.createElement("span")
  e.innerText = "fuck"
- e.style.position = "absolute"
- e.style.opacity = "0.8"
+ //e.style.opacity = "0.8"
  e.style.fontFamily = "Comic Sans MS"
 
  jiggle = function(x) {
@@ -37,14 +44,15 @@
    x.innerText = profanity[Math.floor(Math.random() * profanity.length)]
    x.style.top = `${Math.random() * 97}vh`
    x.style.left = `${Math.random() * 96}vw`
-   x.style.color = `hsl(${Math.random()*350} 100% 50%)`
+   //x.style.color = `hsl(${Math.random()*360} 100% 50%)`
+   x.filter = `hue-rotate(${Math.random()*360}deg)`
    x.style.fontSize = `${(Math.random() * 2) + 2}vh`
    x.style.transform = `rotate(${Math.random() * 360}deg)`
-   x.style.animationDuration = `${(Math.random() * 1000)+1000}ms`  
+   x.style.animationDuration = `${(Math.random() * 1500)+1000}ms` 
   } 
 
 um = function() {
- for (i=0; i<200; i++) {
+ for (i=0; i<300; i++) {
    jiggle(e)
    document.body.appendChild(e.cloneNode(true))
  }
