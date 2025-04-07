@@ -15,44 +15,46 @@
          font-family: "Comic Sans MS", "Comic Sans MS", cursive;
          position: absolute;
          mix-blend-mode: screen;
+         overflow: hidden;
+         }
+
+    shit {
          animation-name: spin;
          animation-duration: 1000ms;
          animation-iteration-count: infinite;
          animation-timing-function: ease-out;
          animation-direction: alternate;
-         overflow: hidden;
-         }
+    }
      
      @keyframes spin {
-         from { transform:rotate(666deg) scale(0.01); }
-         to { transform:rotate(0deg) scale(1); }
+         from { transform:rotate(666deg) scale(0.01) filter:hue-rotate(0) ;}
+         to { transform:rotate(0deg) scale(1) filter:hue-rotate(360); }
      }
 </style>
 
 <script>
  //let profanity = ["fuck", "shit", "piss", "cunt", "motherfucker", "twat", "bollocks", "bugger", "arse", "ass"]
  let profanity = [..."🥵💩😭🤬😏🤪🥹😱🤢🥴🤯🤮😤😪😂🤤🫣🤤🥶🤠🤕😷🤒🤐😴🥱😲🤗🤥"]
- e = document.createElement("fuck")
- e.innerText = "fuck"
- //e.style.opacity = "0.8"
- e.style.fontFamily = "Comic Sans MS"
+ s = document.createElement("shit")
+ f = document.createElement("fuck")
+ s.appendChild(f)
 
  jiggle = function(x) {
    x.animationDirection = ["alternate", "alternate-reverse"][Math.floor(Math.random())]
-   x.innerText = profanity[Math.floor(Math.random() * profanity.length)]
+   x.firstElementChild.innerText = profanity[Math.floor(Math.random() * profanity.length)]
    x.style.top = `${(Math.random() * 120) - 19}vh`
    x.style.left = `${(Math.random() * 120) - 19}vw`
    //x.style.color = `hsl(${Math.random()*360} 100% 50%)`
-   x.style.fontSize = `${(Math.random() * 33) + 9}${window.innerWidth < window.innerHeight ? "vw" : "vh"}`
-   x.style.transform = `rotate(${Math.random() * 360}deg)`
+   x.firstElementChild.style.fontSize = `${(Math.random() * 33) + 9}${window.innerWidth < window.innerHeight ? "vw" : "vh"}`
+   x.firstElementChild.style.transform = `rotate(${Math.random() * 360}deg)`
    x.style.animationDuration = `${(Math.random() * 2000)+1000}ms` 
-   x.style.filter = `hue-rotate(${Math.random()*360}deg)`
+   x.firstElementChild.style.filter = `hue-rotate(${Math.random()*360}deg)`
   } 
 
 um = function() {
  for (i=0; i<169; i++) {
-   jiggle(e)
-   document.body.appendChild(e.cloneNode(true))
+   jiggle(f)
+   document.body.appendChild(s.cloneNode(true))
  }
  setInterval(()=>{
     jiggle(document.body.firstElementChild)
