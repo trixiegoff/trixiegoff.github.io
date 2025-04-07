@@ -41,6 +41,7 @@
  s.appendChild(f)
 
  jiggle = function(x) {
+   console.log(x)
    x.animationDirection = ["alternate", "alternate-reverse"][Math.floor(Math.random())]
    x.firstElementChild.innerText = profanity[Math.floor(Math.random() * profanity.length)]
    x.style.top = `${(Math.random() * 120) - 19}vh`
