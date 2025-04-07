@@ -18,16 +18,14 @@
          animation-name: spin;
          animation-duration: 1000ms;
          animation-iteration-count: infinite;
-         animation-timing-function: linear;
+         animation-timing-function: ease-out;
          animation-direction: alternate;
          overflow: hidden;
          }
      
      @keyframes spin {
-         from {
-             transform:rotate(0deg) scale(6);
-         } to {            transform:rotate(420deg) scale(1);
-         }
+         from { transform:rotate(420deg) scale(0.2); }
+         to { transform:rotate(0deg) scale(6); }
      }
 </style>
 
