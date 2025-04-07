@@ -33,6 +33,7 @@
  e.style.fontFamily = "Comic Sans MS"
 
  jiggle = function() {
+   e.animationDirection = ["alternate", "alternate-reverse"][Math.floor(Math.random())]
    e.innerText = profanity[Math.floor(Math.random() * profanity.length)]
    e.style.top = `${Math.random() * 97}vh`
    e.style.left = `${Math.random() * 96}vw`
