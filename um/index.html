@@ -14,7 +14,7 @@
     span {
          font-family: "Comic Sans MS", "Comic Sans MS", cursive;
          position: absolute;
-         mix-blend-mode: color-dodge;
+         mix-blend-mode: screen;
          animation-name: spin;
          animation-duration: 1000ms;
          animation-iteration-count: infinite;
@@ -45,7 +45,7 @@
    x.style.top = `${Math.random() * 97}vh`
    x.style.left = `${Math.random() * 96}vw`
    //x.style.color = `hsl(${Math.random()*360} 100% 50%)`
-   x.filter = `brightness(0.8) saturate(5) hue-rotate(${Math.random()*360}deg)`
+   x.filter = `brightness(1) saturate(3) hue-rotate(${Math.random()*360}deg)`
    x.style.fontSize = `${(Math.random() * 3) + 1}vh`
    x.style.transform = `rotate(${Math.random() * 360}deg)`
    x.style.animationDuration = `${(Math.random() * 1500)+1000}ms` 
