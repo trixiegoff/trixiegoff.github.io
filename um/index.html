@@ -43,7 +43,7 @@
    x.style.top = `${(Math.random() * 120) - 19}vh`
    x.style.left = `${(Math.random() * 120) - 19}vw`
    //x.style.color = `hsl(${Math.random()*360} 100% 50%)`
-   x.style.fontSize = `${(Math.random() * 33) + 9}vh`
+   x.style.fontSize = `${(Math.random() * 33) + 9}${window.innerWidth < window.innerHeight ? "vw" : "vh"}`
    x.style.transform = `rotate(${Math.random() * 360}deg)`
    x.style.animationDuration = `${(Math.random() * 2000)+1000}ms` 
    x.filter = `brightness(1) saturate(3) hue-rotate(${Math.random()*360}deg)`
