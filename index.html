@@ -4,147 +4,161 @@
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>'GWAMS!</title>
-     <style>
+<style>
 @keyframes jiggle {
-   0% {
-     transform: rotate(0deg);
-   }
-   25% {
-     transform: rotate(-2deg);
-   }
-   50% {
-     transform: rotate(2deg);
-   }
-   75% {
-     transform: rotate(-1deg);
-   }
-   100% {
-     transform: rotate(0deg);
-   }
- }
+  0% {
+    transform: rotate(0deg);
+  } 25% {
+    transform: rotate(-2deg);
+  } 50% {
+    transform: rotate(2deg);
+  } 75% {
+    transform: rotate(-1deg);
+  } 100% {
+    transform: rotate(0deg);
+  }
+}
 
 @keyframes delete {
-   from {
-     transform: scale(1) rotate(0deg);
-     opacity: 1;
-   } to {
-     transform: scale(0.3) rotate(360deg);
-     opacity: 0.1;
-   }
+  from {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  } to {
+    transform: scale(0.3) rotate(360deg);
+    opacity: 0.1;
+  }
 }
 
- .deleteanimation {
-   animation: 69ms delete ease-out;
+.deleteanimation {
+  animation: 69ms delete ease-out;
 }
 
-/* General styles for the entire app */
- body, html {
-   margin: 0;
-   padding: 0;
+body, html {
+  margin: 0;
+  padding: 0;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 
-html, body {
-   margin: 0;
-   padding: 0;
-   height: 100%;
- }
- 
- body {
-   font-family: "Comic Sans MS", sans-serif;
-   color: lime;
-   background: black;
-   display: flex;
-   flex-direction: column;
- }
- 
+body {
+  font-family: "Comic Sans MS", sans-serif;
+  color: lime;
+  background: black;
+  display: flex;
+  flex-direction: column;
+}
+
 input[type="text"] {
-          position: sticky;
-          top: 0;
-          z-index: 420;
-          background-color: rgba(0, 0, 0, 0.69);
-          border: 0px solid lime;
-          padding: 0px;
-          color: lime;
-          text-align: center;
-          width: 100vw;
-          font-size: 27pt;
-          display: block;
-          }
- 
- #molecule {
-   position: sticky;
-   text-align: center;
-   top: 29pt;
-   padding-top: 2pt;
-   width: 100%;
-   color: rgba(255,128,128,1);
-   background: rgba(0,0,0,0.69);
-   max-height: 20vh;
-   overflow-y: auto;
- }
- 
- #atoms {
-   text-align: center;
-   color: rgba(255,64,255,1)
-   width: 100%;
-   flex-grow: 1;
-   overflow-y: auto;
- }
-
-
- atom {
-   display: inline-block;
-   padding: 0.1em 0.6em;
-   transition: transform 0.1s ease-out;
-   cursor: pointer;
- }
-
- #atoms > atom:hover {
-   color: cyan;
-   text-shadow: 0px 0px 2px;
-   transform: scale(1.25); 
- }
-
- #molecule > atom:hover::before {
-   display: inline-block;
-   vertical-align: super;
-   content: "⛔️";
-   font-size: 6pt;
-   text-decoration: none;
-   animation: none;
-   left: -0.3em;
-   overflow: hidden;
-   position: absolute;
+  position: sticky;
+  top: 0;
+  z-index: 420;
+  background-color: rgba(0, 0, 0, 0.69);
+  border: 0px solid lime;
+  padding: 0px;
+  color: lime;
+  text-align: center;
+  width: 100vw;
+  font-size: 27pt;
+  display: block;
 }
 
- #molecule > atom:hover {
-   animation: jiggle 0.5s ease-in-out infinite;
-   text-decoration: line-through;
-   text-decoration-thickness: 3px;
-   text-decoration-style: wavy;
-   text-decoration-color: red;
- }
+#molecule {
+  position: sticky;
+  text-align: center;
+  top: 29pt;
+  padding-top: 2pt;
+  width: 100%;
+  color: rgba(255, 128, 128, 1);
+  background: rgba(0, 0, 0, 0.69);
+  max-height: 20vh;
+  overflow-y: auto;
+}
 
- #log {
-          width: 100%;
-          font-size: 24pt;
-          z-index: -69;
-          font-family: monospace, monospace, monospace;
-          opacity: 0.2;
-          transform-origin: 50% 100% -10px;
-          transform: perspective(200px) rotateX(25deg);
-          position: fixed;
-          bottom: 24pt;
-          left: *;
-          right: *;
-          mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
-          }
- 
-      #log > * {
-         text-align: center;
-      }
+#molecule > #atom:hover::before {
+  display: inline-block;
+  vertical-align: super;
+  content: "⛔️";
+  font-size: 6pt;
+  text-decoration: none;
+  animation: none;
+  left: -0.3em;
+  overflow: hidden;
+  position: absolute;
+}
+
+#molecule > atom:hover {
+  animation: jiggle 0.5s ease-in-out infinite;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-style: wavy;
+  text-decoration-color: red;
+}
+
+#atoms {
+  text-align: center;
+  color: rgba(255, 64, 255, 1) width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+atom {
+  display: inline-block;
+  padding: 0.1em 0.6em;
+  transition: transform 0.1s ease-out;
+  cursor: pointer;
+  animation: 200ms atomicfadein;
+}
+
+#atoms > atom:hover {
+  color: cyan;
+  text-shadow: 0px 0px 2px;
+  transform: scale(1.25);
+}
+
+#log {
+  width: 100%;
+  font-size: 24pt;
+  z-index: -69;
+  font-family: monospace, monospace, monospace;
+  opacity: 0.2;
+  transform-origin: 50% 100% -10px;
+  transform: perspective(200px) rotateX(25deg);
+  position: fixed;
+  bottom: 24pt;
+  left: *;
+  right: *;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
+}
+
+#log > * {
+  text-align: center;
+}
 
 log {
-display: block;
+  display: block;
+}
+
+@keyframes atomicfadein {
+  0% {
+    transform: scaleY(0.1);
+    filter: brightness(200%) saturate(1000%) contrast(1000%) blur(20px);
+    text-shadow: 0 0 10px rgba(255,255,255,1);
+  }
+  70% {
+    transform: scaleY(1.2);
+    filter: brightness(100%) saturate(100%) contrast(100%) blur(0px);
+    text-shadow: 0 0 10px rgba(255,255,255,1);
+  }
+  100% {
+    transform: scaleY(1);
+    filter: brightness(100%) saturate(100%) contrast(100%) blur(0px);
+    text-shadow: 0 0 10px rgba(255,255,255,1);
+  }
+}
+
+.atomicfadein {
+  animation: 200ms atomicfadein;
 }
 
 </style>
@@ -196,7 +210,7 @@ add = function (hash1, hash2, diclen = 26n) { //new hotness
   }
   return hash1
 }
-
+#
 
 //////////////////////////////////////////////
 const hashes = new Map()
@@ -211,7 +225,7 @@ throttler = () => {
   if (throttleTimer) return // Exit if throttle timer is active
   throttleTimer = setTimeout(() => {
     updatehash()
-    throttleTimer = null; // Reset the timer
+    throttleTimer = null // Reset the timer
   }, throttleDelay)
 }
 
