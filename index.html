@@ -1,363 +1,346 @@
 <!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>'GWAMS!</title>
-<style>
-@keyframes jiggle {
-  0% {
-    transform: rotate(0deg);
-  } 25% {
-    transform: rotate(-2deg);
-  } 50% {
-    transform: rotate(2deg);
-  } 75% {
-    transform: rotate(-1deg);
-  } 100% {
-    transform: rotate(0deg);
-  }
-}
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>'GWAMS!</title>
+ <style>
+ @keyframes jiggle {
+   0% {
+     transform: rotate(0deg);
+   } 25% {
+     transform: rotate(-2deg);
+   } 50% {
+     transform: rotate(2deg);
+   } 75% {
+     transform: rotate(-1deg);
+   } 100% {
+     transform: rotate(0deg);
+   }
+ }
+ 
+ @keyframes delete {
+   from {
+     transform: scale(1) rotate(0deg);
+     opacity: 1;
+   } to {
+     transform: scale(0.3) rotate(360deg);
+     opacity: 0.1;
+   }
+ }
+ 
+ .deleteanimation {
+   animation: 69ms delete ease-out;
+ }
+ 
+ body, html {
+   margin: 0;
+   padding: 0;
+   margin: 0;
+   padding: 0;
+   height: 100%;
+ }
+ 
+ body {
+   font-family: "Comic Sans MS", sans-serif;
+   color: lime;
+   background: black;
+   display: flex;
+   flex-direction: column;
+ }
+ 
+ input[type="text"] {
+   position: sticky;
+   top: 0;
+   z-index: 420;
+   background-color: rgba(0, 0, 0, 0.69);
+   border: 0px solid lime;
+   padding: 0px;
+   color: lime;
+   text-align: center;
+   width: 100vw;
+   font-size: 27pt;
+   display: block;
+ }
+ 
+ #molecule {
+   position: sticky;
+   text-align: center;
+   top: 29pt;
+   padding-top: 2pt;
+   width: 100%;
+   color: rgba(255, 128, 128, 1);
+   background: rgba(0, 0, 0, 0.69);
+   max-height: 20vh;
+   overflow-y: auto;
+ }
+ 
+ #molecule > #atom:hover::before {
+   display: inline-block;
+   vertical-align: super;
+   content: "⛔️";
+   font-size: 6pt;
+   text-decoration: none;
+   animation: none;
+   left: -0.3em;
+   overflow: hidden;
+   position: absolute;
+ }
+ 
+ #molecule > atom:hover {
+   animation: jiggle 0.5s ease-in-out infinite;
+   text-decoration: line-through;
+   text-decoration-thickness: 3px;
+   text-decoration-style: wavy;
+   text-decoration-color: red;
+ }
+ 
+ #atoms {
+   text-align: center;
+   color: rgba(255, 64, 255, 1) width: 100%;
+   flex-grow: 1;
+   overflow-y: auto;
+ }
+ 
+ atom {
+   display: inline-block;
+   padding: 0.1em 0.6em;
+   transition: transform 0.1s ease-out;
+   cursor: pointer;
+ }
+ 
+ #atoms > atom:hover {
+   color: cyan;
+   text-shadow: 0px 0px 2px;
+   transform: scale(1.25);
+ }
+ 
+ #log {
+   width: 100%;
+   font-size: 24pt;
+   z-index: -69;
+   font-family: monospace, monospace, monospace;
+   opacity: 0.2;
+   transform-origin: 50% 100% -10px;
+   transform: perspective(200px) rotateX(25deg);
+   position: fixed;
+   bottom: 24pt;
+   left: *;
+   right: *;
+   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
+ }
+ 
+ #log > * {
+   text-align: center;
+ }
+ 
+ log {
+   display: block;
+ }
+ 
+ </style>
+ <script>
+//var dichash = 0x10044404611187bf7ff7efdfffffffffffffffn
+var dichash = 0n
+ 
 
-@keyframes delete {
-  from {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  } to {
-    transform: scale(0.3) rotate(360deg);
-    opacity: 0.1;
-  }
-}
+ let log = (s) => {
+   let logparent = document.getElementById("log")
+   let e = document.createElement("log")
+   e.innerHTML = s
+   logparent.append(e)
+   while (logparent.children.length > 69) logparent.removeChild(logparent.firstChild)
+ }
+ 
+ //my brain refuses to rename this as it returns a pile of hash
+ weedrun = function (in_str, out = 0n) {
+   for (c of in_str) {
+     let n = BigInt((c.charCodeAt() & ~32) - 65) //lower case & normalize
+     if (!((n > 26n) || (n < 0n))) { //only process english alphabet
+       n = 1n << n //set bit n
+       while ((n & out) == n) n <<= 26n //if collision shift up 26 bits
+       out |= n //park that bit
+     }
+   }
+   return out //return the delicious hashtogram
+ }
+ 
+ 
+ subtract = function (hash1, hash2, diclen = 26n) {
+   diclen = BigInt(diclen)
+   while ((hash1 & hash2) != 0n) {
+     hash2 <<= diclen
+   }
+   while (hash2 > 0n) {
+     hash2 >>= diclen
+     smoke = (hash2 & hash1)
+     hash1 &= ~smoke
+     hash2 &= ~smoke
+   }
+   return hash1
+ }
+ 
+ 
+ add = function (hash1, hash2, diclen = 26n) { //new hotness
+   diclen = BigInt(diclen)
+   while (hash2 > 0n) {
+     smoke = (hash2 ^ hash1)
+     hash1 |= hash2
+     hash2 &= ~smoke
+     hash2 <<= diclen
+   }
+   return hash1
+ }
+ 
 
-.deleteanimation {
-  animation: 69ms delete ease-out;
-}
+ const hashes = new Map()
 
-body, html {
-  margin: 0;
-  padding: 0;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
+ let next_hash = 0n
+ 
+ /* let throttleTimer
+ const throttleDelay = 50
+ 
+ throttler = () => {
+   if (throttleTimer) return // Exit if throttle timer is active
+   throttleTimer = setTimeout(() => {
+     updatehash()
+     throttleTimer = null // Reset the timer
+   }, throttleDelay)
+ } */
+ 
+ 
+ atomise = (words, tag = "atom") => {
+   return (words.length > 1) ?
+     `<${tag}>${words.join(`</${tag}> <${tag}>`)}</${tag}> ` :
+     `<${tag}>${words[0]}</${tag}> `
+ }
+ 
+ 
+ let animationFrameId;
+ var updatehash = (whatdo) => {
+   haystack = document.getElementById("words").value
+ 
+   next_hash = weedrun(haystack)
+   charcnt = haystack.length
+ 
+   if (whatdo == "words") {
+     document.getElementById("molecule").innerHTML = ""
+   }
+   else if (whatdo == "molecule") {
+     next_hash = subtract(next_hash, weedrun(document.getElementById("molecule").innerText))
+   }
+   next_hash = next_hash & dichash; //in theory this should speed shit up a lot
 
-body {
-  font-family: "Comic Sans MS", sans-serif;
-  color: lime;
-  background: black;
-  display: flex;
-  flex-direction: column;
-}
-
-input[type="text"] {
-  position: sticky;
-  top: 0;
-  z-index: 420;
-  background-color: rgba(0, 0, 0, 0.69);
-  border: 0px solid lime;
-  padding: 0px;
-  color: lime;
-  text-align: center;
-  width: 100vw;
-  font-size: 27pt;
-  display: block;
-}
-
-#molecule {
-  position: sticky;
-  text-align: center;
-  top: 29pt;
-  padding-top: 2pt;
-  width: 100%;
-  color: rgba(255, 128, 128, 1);
-  background: rgba(0, 0, 0, 0.69);
-  max-height: 20vh;
-  overflow-y: auto;
-}
-
-#molecule > #atom:hover::before {
-  display: inline-block;
-  vertical-align: super;
-  content: "⛔️";
-  font-size: 6pt;
-  text-decoration: none;
-  animation: none;
-  left: -0.3em;
-  overflow: hidden;
-  position: absolute;
-}
-
-#molecule > atom:hover {
-  animation: jiggle 0.5s ease-in-out infinite;
-  text-decoration: line-through;
-  text-decoration-thickness: 3px;
-  text-decoration-style: wavy;
-  text-decoration-color: red;
-}
-
-#atoms {
-  text-align: center;
-  color: rgba(255, 64, 255, 1) width: 100%;
-  flex-grow: 1;
-  overflow-y: auto;
-}
-
-atom {
-  display: inline-block;
-  padding: 0.1em 0.6em;
-  transition: transform 0.1s ease-out;
-  cursor: pointer;
-  animation: 200ms atomicfadein;
-}
-
-#atoms > atom:hover {
-  color: cyan;
-  text-shadow: 0px 0px 2px;
-  transform: scale(1.25);
-}
-
-#log {
-  width: 100%;
-  font-size: 24pt;
-  z-index: -69;
-  font-family: monospace, monospace, monospace;
-  opacity: 0.2;
-  transform-origin: 50% 100% -10px;
-  transform: perspective(200px) rotateX(25deg);
-  position: fixed;
-  bottom: 24pt;
-  left: *;
-  right: *;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
-}
-
-#log > * {
-  text-align: center;
-}
-
-log {
-  display: block;
-}
-
-@keyframes atomicfadein {
-  0% {
-    transform: scaleY(0.1);
-    filter: brightness(200%) saturate(1000%) contrast(1000%) blur(20px);
-    text-shadow: 0 0 10px rgba(255,255,255,1);
-  }
-  70% {
-    transform: scaleY(1.2);
-    filter: brightness(100%) saturate(100%) contrast(100%) blur(0px);
-    text-shadow: 0 0 10px rgba(255,255,255,1);
-  }
-  100% {
-    transform: scaleY(1);
-    filter: brightness(100%) saturate(100%) contrast(100%) blur(0px);
-    text-shadow: 0 0 10px rgba(255,255,255,1);
-  }
-}
-
-.atomicfadein {
-  animation: 200ms atomicfadein;
-}
-
-</style>
-<script>
-let log = (s) => {
-  let logparent = document.getElementById("log")
-  let e = document.createElement("log")
-  e.innerHTML = s
-  logparent.append(e)
-  while (logparent.children.length > 69) logparent.removeChild(logparent.firstChild)
-}
-
-//my brain refuses to rename this as it returns a pile of hash
-weedrun = function (in_str, out = 0n) {
-  for (c of in_str) {
-    let n = BigInt((c.charCodeAt() & ~32) - 65) //lower case & normalize
-    if (!((n > 26n) || (n < 0n))) { //only process english alphabet
-      n = 1n << n //set bit n
-      while ((n & out) == n) n <<= 26n //if collision shift up 26 bits
-      out |= n //park that bit
-    }
-  }
-  return out //return the delicious hashtogram
-}
-
-
-subtract = function (hash1, hash2, diclen = 26n) {
-  diclen = BigInt(diclen)
-  while ((hash1 & hash2) != 0n) {
-    hash2 <<= diclen
-  }
-  while (hash2 > 0n) {
-    hash2 >>= diclen
-    smoke = (hash2 & hash1)
-    hash1 &= ~smoke
-    hash2 &= ~smoke
-  }
-  return hash1
-}
-
-
-add = function (hash1, hash2, diclen = 26n) { //new hotness
-  diclen = BigInt(diclen)
-  while (hash2 > 0n) {
-    smoke = (hash2 ^ hash1)
-    hash1 |= hash2
-    hash2 &= ~smoke
-    hash2 <<= diclen
-  }
-  return hash1
-}
-
-
-//////////////////////////////////////////////
-const hashes = new Map()
-
-let next_hash = 0n
-let last_hash = 0n
-
-let throttleTimer
-const throttleDelay = 50
-
-throttler = () => {
-  if (throttleTimer) return // Exit if throttle timer is active
-  throttleTimer = setTimeout(() => {
-    updatehash()
-    throttleTimer = null // Reset the timer
-  }, throttleDelay)
-}
-
-
-atomise = (words, tag = "atom") => {
-  return (words.length > 1) ?
-    `<${tag}>${words.join(`</${tag}> <${tag}>`)}</${tag}> ` :
-    `<${tag}>${words[0]}</${tag}> `
-}
-
-
-let animationFrameId;
-var updatehash = (whatdo) => {
-  log(`${whatdo}`)
-  haystack = document.getElementById("words").value
-
-  next_hash = weedrun(haystack)
-  charcnt = haystack.length
-
-  if (whatdo == "words") {
-    document.getElementById("molecule").innerHTML = ""
-  }
-  else if (whatdo == "molecule") {
-    next_hash = subtract(next_hash, weedrun(document.getElementById("molecule").innerText))
-  }
-
-  if (animationFrameId) {
-    cancelAnimationFrame(animationFrameId)
-  }
-  const startTime = performance.now()
-  let i = 0
-  let out = ""
-  hashes.forEach((a, h) => {
-    if ((h & next_hash) == h) {
-      out += atomise(a);
-      i += a.length
-    }
-  })
-  const endTime = performance.now()
-  log(`${i} possible words found in ${(endTime - startTime).toFixed(2)}ms`)
-
-  animationFrameId = requestAnimationFrame(() => {
-    document.getElementById("atoms").innerHTML = out
-  })
-}
-
-
-init = () => {
-  //TODO: both of these cule functions could and should be the same callback
-  let culemother = document.querySelector("#molecule");
-  culemother.addEventListener("click", delfromcule, false);
-
-  function delfromcule(e) {
-    if (e.target !== e.currentTarget) {
-      e.target.style.animation = "10ms delete"
-      setTimeout(() => {
-        e.target.remove()
-        updatehash("molecule")
-      }, 10)
-    }
-    e.stopPropagation()
-  }
-
-  let atommother = document.querySelector("#atoms")
-  atommother.addEventListener("click", addtocule, false)
-
-  function addtocule(e) {
-    if (e.target !== e.currentTarget) {
-      var clickedItem = e.target.innerText
-      let newParent = document.querySelector("#molecule")
-      newParent.innerHTML += atomise([clickedItem])
-      let culehash = weedrun(newParent.innerText)
-      updatehash("molecule")
-    }
-    e.stopPropagation()
-  }
-
-  log(`Downloading dictionary...`)
-
-  let xhr = new XMLHttpRequest()
-  xhr.open('GET', `words.txt`)
-
-  xhr.onload = function () {
-    if (xhr.status != 200) {
-      log(`Error ${xhr.status}: ${xhr.statusText}`)
-    }
-    else {
-      log(`Downloaded ${xhr.response.length} bytes`)
-      let rawdic = xhr.responseText.split("\n")
-      log(`Hashing ${rawdic.length} words...`)
-      mapdic(rawdic)
-      log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
-    }
-  }
-
-  xhr.onprogress = function (event) {
-    if (event.lengthComputable) {
-      log(`Downloaded ${event.loaded} of ${event.total} bytes`)
-    }
-    else {
-      log(`Downloaded ${event.loaded} bytes`)
-    }
-  }
-
-  xhr.onerror = function (event) {
-    log(`Failed to load dictionary!`)
-    console.log(event)
-  }
-
-  xhr.send()
-}
-
-const mapdic = function (words) {
-  for (word of words) {
-    word = word.trim()
-    let hash = weedrun(word)
-    if (hashes.has(hash)) {
-      hashes.set(hash, [...hashes.get(hash), word])
-    }
-    else {
-      hashes.set(hash, [word])
-    }
-  }
-  hashes.delete(0n)
-}
-
-</script>
- </head>
- <body onload="init()">
-     <input type="text" id="words" placeholder="PUT YOUR WORDS INSIDE ME 🥺" oninput="updatehash(event.target.id)">
-     <div id="molecule"></div>
-     <div id="atoms"></div>
-     <div id="log"></div>
- </body>
- </html>
+   if (animationFrameId) {
+     cancelAnimationFrame(animationFrameId)
+   }
+   const startTime = performance.now()
+   let i = 0
+   let out = ""
+   hashes.forEach((a, h) => {
+     if ((h & next_hash) == h) {
+       out += atomise(a);
+       i += a.length
+     }
+   })
+   const endTime = performance.now()
+   log(`${i} possible words found in ${(endTime - startTime).toFixed(2)}ms`)
+ 
+   animationFrameId = requestAnimationFrame(() => {
+     document.getElementById("atoms").innerHTML = out
+   })
+ }
+ 
+ 
+ init = () => {
+   //TODO: both of these cule functions could and should be the same callback
+   let culemother = document.querySelector("#molecule");
+   culemother.addEventListener("click", delfromcule, false);
+ 
+   function delfromcule(e) {
+     if (e.target !== e.currentTarget) {
+       e.target.style.animation = "10ms delete"
+       setTimeout(() => {
+         e.target.remove()
+         updatehash("molecule")
+       }, 10)
+     }
+     e.stopPropagation()
+   }
+ 
+   let atommother = document.querySelector("#atoms")
+   atommother.addEventListener("click", addtocule, false)
+ 
+   function addtocule(e) {
+     if (e.target !== e.currentTarget) {
+       var clickedItem = e.target.innerText
+       let newParent = document.querySelector("#molecule")
+       newParent.innerHTML += atomise([clickedItem])
+       let culehash = weedrun(newParent.innerText)
+       updatehash("molecule")
+     }
+     e.stopPropagation()
+   }
+ 
+   log(`Downloading dictionary...`)
+ 
+   let xhr = new XMLHttpRequest()
+   xhr.open('GET', `words.txt`)
+ 
+   xhr.onload = function () {
+     if (xhr.status != 200) {
+       log(`Error ${xhr.status}: ${xhr.statusText}`)
+     }
+     else {
+       log(`Downloaded ${xhr.response.length} bytes`)
+       let rawdic = xhr.responseText.split("\n")
+       log(`Hashing ${rawdic.length} words...`)
+       mapdic(rawdic)
+       log(`${rawdic.length} words hashed into ${hashes.size} buckets`)
+     }
+   }
+ 
+   xhr.onprogress = function (event) {
+     if (event.lengthComputable) {
+       log(`Downloaded ${event.loaded} of ${event.total} bytes`)
+     }
+     else {
+       log(`Downloaded ${event.loaded} bytes`)
+     }
+   }
+ 
+   xhr.onerror = function (event) {
+     log(`Failed to load dictionary!`)
+     console.log(event)
+   }
+ 
+   xhr.send()
+ }
+ 
+ const mapdic = function (words) {
+   let hashofhashes = 0n
+   for (word of words) {
+     word = word.trim()
+     let hash = weedrun(word)
+     hashofhashes |= hash
+     if (hashes.has(hash)) {
+       hashes.set(hash, [...hashes.get(hash), word])
+     }
+     else {
+       hashes.set(hash, [word])
+     }
+   }
+   hashes.delete(0n)
+   dichash = hashofhashes;
+   //alert(hashofhashes.toString(16).split("").join(" "))
+ }
+ 
+ </script>
+  </head>
+  <body onload="init()">
+      <input type="text" id="words" placeholder="PUT YOUR WORDS INSIDE ME 🥺" oninput="updatehash(event.target.id)">
+      <div id="molecule"></div>
+      <div id="atoms"></div>
+      <div id="log"></div>
+  </body>
+  </html>
