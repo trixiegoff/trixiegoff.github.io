@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>piss</title>
+  <style>
+
+body {
+   font-size: 24pt;
+   text-align: center;
+   background-color: black;
+   color: white;
+ }
+
+ @property --angle1 {
+   syntax: '<angle>';
+   initial-value: 0deg;
+   inherits: true;
+}
+ 
+ @property --angle2 {
+   syntax: '<angle>';
+   initial-value: 0deg;
+   inherits: true;
+ }
+ 
+ @keyframes spin1 {
+   from {
+     --angle1: 0deg;
+   } to {
+     --angle1: 360deg;
+   }
+ }
+ 
+
+ @keyframes spin2 {
+   from {
+     --angle2: 360deg;
+   } to {
+     --angle2: 0deg;
+  }
+ }
+ 
+ .fuck {
+   display: inline-block;
+   color: hsl(calc(var(--angle2) + var(--angle1)), 100%, 50%);
+   transform-origin: center;
+   transform:  translate(0,
+     calc( 3pt *
+     sin(var(--angle1) + var(--angle2)) + 5pt))
+
+     rotate(calc(atan(cos(var(--angle1) + var(--angle2)))));
+
+   animation: 1s spin1 linear infinite, 1.618s spin2 linear infinite;
+ }
+</style>
+<script>
+takemyloadyoufuckingslut = () => {
+let i=0
+let j=1
+whywouldyouevendothis = document.body.innerText.split("")
+hotload = ""
+for (word of whywouldyouevendothis) {
+   //let dist = word.length
+   i -= 0.6
+   j -= 0.9
+   if (word == " ") {
+     hotload += word
+   } else {
+     hotload += `<div class="fuck" style="animation-delay: ${i}s, ${j}s">${word}</div>`
+   }
+   if ((word == "\n") || (word == ".") || (word == "?")) hotload += "<p>"
+}
+document.body.innerHTML = hotload
+}
+</script>
+<body onload="takemyloadyoufuckingslut()">
+H O L Y - F U C K I N G - S H I T .
+
+Did you know CSS has trig functions now!?
+
+In combination with the latest CSS @property thingy which allows variables to be animated, all this animation is running from is two angles which are animated between 0-360 degs over two incongruent periods.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</body>
+</html>
