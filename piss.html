@@ -46,12 +46,11 @@ body {
    display: inline-block;
    color: hsl(calc(var(--angle2) + var(--angle1)), 100%, 50%);
    transform-origin: center;
-   transform:  translate(0,
-     calc( 3pt *
-     sin(var(--angle1) + var(--angle2)) + 5pt))
-
-     rotate(calc(atan(cos(var(--angle1) + var(--angle2)))));
-
+   transform:  scale(calc(1 + (sin(var(--angle1)) / 3)))
+translate(0, calc(3pt *
+      sin(var(--angle2)) + 5pt))
+     rotate(calc(atan(cos(var(--angle1))/10)));
+   text-shadow: 0px 0px calc(5px * cos(var(--angle1)));
    animation: 1s spin1 linear infinite, 1.618s spin2 linear infinite;
  }
 </style>
